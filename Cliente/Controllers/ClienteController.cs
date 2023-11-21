@@ -11,43 +11,41 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProdutoController : ControllerBase
+    public class ClienteController : ControllerBase
     {
         private readonly DataContent _banco;
 
-        public ProdutoController(DataContent banco)
+        public ClienteController(DataContent banco)
         {
             _banco = banco;
         }
 
         [HttpGet]
         [Route("buscarTodos")]
-        public IEnumerable<Produto> Get()
+        public IEnumerable<Cliente> Get()
         {
-            return _banco.Produto.ToList();
+            return _banco.Cliente.ToList();
         }
 
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<Produto> Post(string nomeProduto,
-                                        string descricaoProduto,
-                                        string imagem,
-                                        double preco)
+        public async Task<Cliente> Post(string nomeCliente,
+                                        string email,
+                                        string endereco)
         {
             try
             {
-                var produto = new Produto
+                var cliente = new Cliente
                 {
-                    NomeProduto = nomeProduto,
-                    DescricaoProduto = descricaoProduto,
-                    Imagem = imagem,
-                    Preco = preco
+                    NomeCliente = nomeCliente,
+                    Email = email,
+                    Endereco = endereco,
                 };
 
-                _banco.Add(produto);
+                _banco.Add(cliente);
                 await _banco.SaveChangesAsync();
 
-                return produto;
+                return cliente;
             }
             catch (Exception ex)
             {
@@ -57,14 +55,14 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("editar")]
-        public async Task<IActionResult> Put(int id, [FromBody] Produto produto)
+        public async Task<IActionResult> Put(int id, [FromBody] Cliente cliente)
         {
-            if (id != produto.Id)
+            if (id != cliente.Id)
             {
                 return BadRequest();
             }
 
-            _banco.Update(produto);
+            _banco.Update(cliente);
             await _banco.SaveChangesAsync();
             return NoContent();
         }
@@ -73,10 +71,10 @@ namespace API.Controllers
         [Route("apagar")]
         public async Task Delete(int id)
         {
-            var produto = _banco.Produto.FirstOrDefault(produto => produto.Id == id);
-            if (produto != null)
+            var cliente = _banco.Cliente.FirstOrDefault(cliente => cliente.Id == id);
+            if (cliente != null)
             {
-                _banco.Remove(produto);
+                _banco.Remove(cliente);
                 await _banco.SaveChangesAsync();
             }
         }

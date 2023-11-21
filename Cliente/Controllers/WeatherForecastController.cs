@@ -23,7 +23,7 @@ namespace API.Controllers
         [Route("buscarTodos")]
         public IEnumerable<Produto> Get()
         {
-            return _banco.WeatherForecast.ToList();
+            return _banco.Produto.ToList();
         }
 
         [HttpPost]

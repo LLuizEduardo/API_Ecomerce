@@ -8,6 +8,6 @@ namespace API.Infraestructure.Data
         public DataContent(DbContextOptions<DataContent> options) : base(options)
         {
         }
-        public DbSet<Produto> WeatherForecast { get; set; }
+        public DbSet<Produto> Produto { get; set; }
     }
 }

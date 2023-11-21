@@ -8,6 +8,12 @@ namespace API.Infraestructure.Data
         public DataContent(DbContextOptions<DataContent> options) : base(options)
         {
         }
+
+        public DbSet<Carrinho> Carrinho { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<InfoEnvio> InfoEnvio { get; set; }
+        public DbSet<Pedido> Pedido { get; set; }
+        public DbSet<PedidoDetalhes> PedidoDetalhes { get; set; }
         public DbSet<Produto> Produto { get; set; }
     }
 }

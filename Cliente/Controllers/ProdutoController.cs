@@ -10,11 +10,11 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class ProdutoController : ControllerBase
     {
         private readonly DataContent _banco;
 
-        public WeatherForecastController(DataContent banco)
+        public ProdutoController(DataContent banco)
         {
             _banco = banco;
         }
@@ -30,36 +30,37 @@ namespace API.Controllers
         [Route("criarNovo")]
         public async Task<Produto> Post(DateTime data, int temperatura, string texto)
         {
-            try
-            {
-                var weatherForecast = new Produto
-                {
-                    Date = data,
-                    TemperatureC = temperatura,
-                    Summary = texto,
-                };
+            //try
+            //{
+            //    var weatherForecast = new Produto
+            //    {
+            //        Date = data,
+            //        TemperatureC = temperatura,
+            //        Summary = texto,
+            //    };
 
-                _banco.Add(weatherForecast);
-                await _banco.SaveChangesAsync();
+            //    _banco.Add(weatherForecast);
+            //    await _banco.SaveChangesAsync();
 
-                return weatherForecast;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message.ToString());
-            }
+            //    return weatherForecast;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception(ex.Message.ToString());
+            //}
+            return new();
         }
 
         [HttpPut]
         [Route("editar")]
-        public async Task<IActionResult> Put(int id, [FromBody] Produto weatherForecast)
+        public async Task<IActionResult> Put(int id, [FromBody] Produto produto)
         {
-            if (id != weatherForecast.Id)
+            if (id != produto.Id)
             {
                 return BadRequest();
             }
 
-            _banco.Update(weatherForecast);
+            _banco.Update(produto);
             await _banco.SaveChangesAsync();
             return NoContent();
         }
@@ -68,10 +69,10 @@ namespace API.Controllers
         [Route("apagar")]
         public async Task Delete(int id)
         {
-            var w = _banco.WeatherForecast.FirstOrDefault(w => w.Id == id);
-            if (w != null)
+            var produto = _banco.Produto.FirstOrDefault(produto => produto.Id == id);
+            if (produto != null)
             {
-                _banco.Remove(w);
+                _banco.Remove(produto);
                 await _banco.SaveChangesAsync();
             }
         }

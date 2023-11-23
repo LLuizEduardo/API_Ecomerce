@@ -27,6 +27,13 @@ namespace API.Controllers
             return _banco.Produto.ToList();
         }
 
+        [HttpGet]
+        [Route("buscarPorId")]
+        public Produto Get(int id)
+        {
+            return _banco.Produto.Where(x => x.Id == id).FirstOrDefault();
+        }
+
         [HttpPost]
         [Route("criarNovo")]
         public async Task<Produto> Post(string nomeProduto,

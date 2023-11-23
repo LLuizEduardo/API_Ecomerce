@@ -20,6 +20,31 @@ namespace API.Controllers
             _banco = banco;
         }
 
+        [HttpPost]
+        [Route("criarNovo")]
+        public async Task<Pedido> Post()
+        {
+            try
+            {
+                var pedido = new Pedido
+                {
+                    DataPedido = DateTime.Now,
+                    //DataEnvio = dataEnvio,
+                    //Cliente = cliente,
+                    Status = EStatus.Realizado,
+                    //InformacaoEnvio = informacaoEnvio
+                };
+
+                _banco.Add(pedido);
+                await _banco.SaveChangesAsync();
+
+                return pedido;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
 
     }
 }

@@ -1,63 +1,87 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="globals.css" />
-    <link rel="stylesheet" href="styleguide.css" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="index">
-      <div class="div">
-        <div class="overlap-group">
-          <div class="menu-superior">
-            <div class="icone-compra"></div>
-            <img class="icone-usuario" src="img/icone-usuario.svg" />
-          </div>
-          <img class="logo-home" src="img/logo-home.png" />
+
+<head>
+  <link rel="stylesheet" href="globals.css" />
+  <link rel="stylesheet" href="styleguide.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="index">
+    <div class="div">
+      <div class="overlap-group">
+        <div class="menu-superior">
+          <div class="icone-compra"></div>
+          <img class="icone-usuario" src="img/icone-usuario.svg" />
         </div>
-        <div class="cadastro">
-          <div class="frame"><div class="text-wrapper">Cadastro</div></div>
-          <div class="frame-2">
-            <div class="frame-3">
-              <div class="frame-4">
-                <div class="text-wrapper-2">Nome</div>
-                <div class="under-line"></div>
-              </div>
-              <div class="frame-4">
-                <div class="text-wrapper-2">Email</div>
-                <div class="under-line"></div>
-              </div>
-              <div class="frame-4">
-                <div class="text-wrapper-2">Senha</div>
-                <div class="under-line"></div>
-              </div>
-            </div>
-            <div class="button-wrapper">
-              <button class="button"><div class="text-wrapper-3">Criar conta</div></button>
-            </div>
-          </div>
+        <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
+      </div>
+      <div class="cadastro">
+        <div class="frame">
+          <div class="text-wrapper">Cadastro</div>
         </div>
-        <div class="login">
-          <div class="frame-5">
-            <div class="frame"><div class="text-wrapper">Login</div></div>
-            <div class="frame-2">
-              <div class="frame-3">
-                <div class="frame-4">
-                  <div class="text-wrapper-2">Email</div>
-                  <div class="under-line-2"></div>
-                </div>
-                <div class="frame-4">
-                  <div class="text-wrapper-2">Senha</div>
-                  <div class="under-line-2"></div>
-                </div>
-              </div>
+        <div class="frame-2">
+          <div class="frame-3">
+            <div class="frame-4">
+              <input class="text-wrapper-2" placeholder="Nome"></input>
+            </div>
+            <div class="frame-4">
+              <input class="text-wrapper-2" placeholder="Email"></input>
+            </div>
+            <div class="frame-4">
+              <input type="password" class="text-wrapper-2" placeholder="Senha"></input>
             </div>
           </div>
-          <div class="div-wrapper">
-            <button class="button"><div class="text-wrapper-3">Logar</div></button>
+          <div class="button-wrapper">
+            <button class="button" onclick="registrar()">
+              <div class="text-wrapper-3">Criar conta</div>
+            </button>
           </div>
         </div>
       </div>
+      <div class="login">
+        <div class="frame-5">
+          <div class="frame">
+            <div class="text-wrapper">Login</div>
+          </div>
+          <div class="frame-2">
+            <div class="frame-3">
+              <div class="frame-4">
+                <input class="text-wrapper-2" placeholder="Email"></input>
+              </div>
+              <div class="frame-4">
+                <input type="password" class="text-wrapper-2" placeholder="Senha"></input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="div-wrapper">
+          <button class="button" onclick="logar()">
+            <div class="text-wrapper-3">Logar</div>
+          </button>
+        </div>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
+<script>
+
+  function registrar() {
+    // alert('Registro realizado.')
+    fetch('http://localhost:4877/Cliente/criarNovo',
+      {
+        method: 'POST',
+        // headers: { 'Content-Type': 'application/json' },
+        body: { nomeCliente: "dewghfiu", email: "ewjhfr", Endereco: "dwehdfiwhe" }
+      })//.then(response=>response.json())
+  }
+
+  function logar() {
+    alert('Login Realizado')
+  }
+
+
+</script>

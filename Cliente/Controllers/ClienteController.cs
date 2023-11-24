@@ -29,17 +29,25 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<Cliente> Post(string nomeCliente,
-                                        string email,
-                                        string endereco)
+        //public async Task<Cliente> Post(string nomeCliente,
+        //                                string email,
+        //                                string endereco)
+        public async Task<Cliente> Post([FromBody] Cliente clienteNovo)
         {
             try
             {
+                //var cliente = new Cliente
+                //{
+                //    NomeCliente = nomeCliente,
+                //    Email = email,
+                //    Endereco = endereco,
+                //};
+
                 var cliente = new Cliente
                 {
-                    NomeCliente = nomeCliente,
-                    Email = email,
-                    Endereco = endereco,
+                    NomeCliente = clienteNovo.NomeCliente,
+                    Email = clienteNovo.Email,
+                    Endereco = clienteNovo.Endereco,
                 };
 
                 _banco.Add(cliente);

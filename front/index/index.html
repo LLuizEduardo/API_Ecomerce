@@ -15,7 +15,7 @@
           <img class="promoes" src="img/promo-es.png" />
           <div class="promo" id="container">
             <script>
-              fetch('produtos.json')
+              fetch('http://localhost:4877/Produto/buscarTodos')
                 .then((response) => response.json())
                 .then(json => {                 
                   json.forEach(product => {
@@ -30,10 +30,10 @@
                             <div class="text-wrapper">Adicionar ao carrinho</div>
                           </div>
                         </div>
-                        <div class="img-wrapper"><img class="combo-galera" src="${product.imagem}" /></div>
+                        <div class="img-wrapper"><img class="combo-galera" src="${product.nomeProduto}" /></div>
                       </div>
                       <div class="frame">
-                        <div class="text-wrapper-2">${product.descricao}</div>
+                        <div class="text-wrapper-2">${product.descricaoProduto}</div>
                         <div class="div-wrapper">
                           <div class="text-wrapper-3">${product.preco} R$</div>
                         </div>

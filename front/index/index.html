@@ -17,23 +17,23 @@
             <script>
               fetch('http://localhost:4877/Produto/buscarTodos')
                 .then((response) => response.json())
-                .then(json => {                 
+                .then(json => {
                   json.forEach(product => {
                     var newDiv = document.createElement('div');
                     newDiv.className = 'item-promo';
 
                     newDiv.innerHTML = `
                       <div class="cart">
-                        <div class="overlap-group">
+                        <button class="overlap-group" onclick="clicou(${product.id})">
                           <div class="div">
                             <img class="img" src="img/cart1-9.svg" />
                             <div class="text-wrapper">Adicionar ao carrinho</div>
                           </div>
-                        </div>
-                        <div class="img-wrapper"><img class="combo-galera" src="${product.nomeProduto}" /></div>
+                        </button>
+                         <div class="img-wrapper"><img class="combo-galera" src="${product.imagem}" /></div>
                       </div>
                       <div class="frame">
-                        <div class="text-wrapper-2">${product.descricaoProduto}</div>
+                        <div class="text-wrapper-2">${product.nomeProduto}</div>
                         <div class="div-wrapper">
                           <div class="text-wrapper-3">${product.preco} R$</div>
                         </div>
@@ -64,7 +64,7 @@
                 </div>
               </div>
             </div>
-            
+
           </div>
         </div>
         <!-- <div class="frame-populares">
@@ -89,18 +89,23 @@
             </div>
            </div>
           </div> -->
-        </div>
-        <img class="cupcackes" src="img/s2-cupcackes-1-1.png" />
-        <div class="menu-superior">
-          <div class="icone-compra"></div>
-          <a href="../cadastro-login/index.html"><img class="icone-usuario" src="img/icone-usuario.svg" /></a>
-
-        </div>
-        <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a> 
+      </div>
+      <img class="cupcackes" src="img/s2-cupcackes-1-1.png" />
+      <div class="menu-superior">
+        <div class="icone-compra"></div>
+        <a href="../cadastro-login/index.html"><img class="icone-usuario" src="img/icone-usuario.svg" /></a>
 
       </div>
+      <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
+
     </div>
+  </div>
   </div>
 </body>
 
 </html>
+<script>
+  function clicou(id) {
+    alert('Adicionou o item ' + id + ' no carrinho')
+  }
+</script>

@@ -20,29 +20,19 @@ namespace API.Controllers
             _banco = banco;
         }
 
-        //[HttpGet]
-        //[Route("buscarTodos")]
-        //public IEnumerable<Cliente> Get()
-        //{
-        //    return _banco.Cliente.ToList();
-        //}
+        [HttpGet]
+        [Route("buscarTodos")]
+        public IEnumerable<Cliente> Get()
+        {
+            return _banco.Cliente.ToList();
+        }
 
         [HttpPost]
         [Route("criarNovo")]
-        //public async Task<Cliente> Post(string nomeCliente,
-        //                                string email,
-        //                                string endereco)
         public async Task<Cliente> Post([FromBody] Cliente clienteNovo)
         {
             try
             {
-                //var cliente = new Cliente
-                //{
-                //    NomeCliente = nomeCliente,
-                //    Email = email,
-                //    Endereco = endereco,
-                //};
-
                 var cliente = new Cliente
                 {
                     NomeCliente = clienteNovo.NomeCliente,

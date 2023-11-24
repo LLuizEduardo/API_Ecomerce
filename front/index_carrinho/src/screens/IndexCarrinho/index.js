@@ -1,1 +1,0 @@
-export { IndexCarrinho } from "./IndexCarrinho";

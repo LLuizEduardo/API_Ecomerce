@@ -1,5 +1,22 @@
+[
 {
     "descricao": "Cupcake com Oreo",
     "imagem": "img/cart1-1.svg",
     "preco": 35.00
+},
+{
+    "descricao": "Cupcake com carai",
+    "imagem": "img/cart1-1.svg",
+    "preco": 32.00
+},
+{
+    "descricao": "Cupcake com Oreo",
+    "imagem": "img/cart1-1.svg",
+    "preco": 35.00
+},
+{
+    "descricao": "Cupcake com carai",
+    "imagem": "img/cart1-1.svg",
+    "preco": 32.00
 }
+]

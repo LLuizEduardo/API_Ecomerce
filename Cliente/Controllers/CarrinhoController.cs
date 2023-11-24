@@ -22,19 +22,19 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("ver")]
-        public IEnumerable<Carrinho> Get()
+        public IEnumerable<ItemCarrinho> Get()
         {
-            return _banco.Carrinho.ToList();
+            return _banco.ItemCarrinho.ToList();
         }
 
         [HttpPost]
         [Route("adicionar")]
-        public async Task<Carrinho> Post(Produto produto,
+        public async Task<ItemCarrinho> Post(Produto produto,
                                          int quantidade)
         {
             try
             {
-                var carrinho = new Carrinho
+                var carrinho = new ItemCarrinho
                 {
                     DataAdicao = DateTime.Now,
                     Produto = produto,
@@ -54,7 +54,7 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("editar")]
-        public async Task<IActionResult> Put(int id, [FromBody] Carrinho carrinho)
+        public async Task<IActionResult> Put(int id, [FromBody] ItemCarrinho carrinho)
         {
             if (id != carrinho.Id)
             {
@@ -70,7 +70,7 @@ namespace API.Controllers
         [Route("apagar")]
         public async Task Delete(int id)
         {
-            var carrinho = _banco.Carrinho.FirstOrDefault(carrinho => carrinho.Id == id);
+            var carrinho = _banco.ItemCarrinho.FirstOrDefault(carrinho => carrinho.Id == id);
             if (carrinho != null)
             {
                 _banco.Remove(carrinho);

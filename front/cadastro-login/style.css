@@ -1,0 +1,223 @@
+.index {
+  background-color: #f9c9ae;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.index .div {
+  background-color: #f9c9ae;
+  width: 1440px;
+  height: 1932px;
+  position: relative;
+}
+
+.index .overlap-group {
+  position: absolute;
+  width: 1440px;
+  height: 281px;
+  top: 0;
+  left: 0;
+  background-image: url(./img/s2-cupcackes-1-1.png);
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.index .menu-superior {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  position: absolute;
+  top: 103px;
+  left: 1124px;
+}
+
+.index .icone-compra {
+  background-image: url(./img/cart1-3.svg);
+  background-size: 100% 100%;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.index .icone-usuario {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.index .logo-home {
+  position: absolute;
+  width: 184px;
+  height: 184px;
+  top: 46px;
+  left: 50px;
+  object-fit: cover;
+}
+
+.index .cadastro {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 48px;
+  position: absolute;
+  top: 392px;
+  left: 254px;
+}
+
+.index .frame {
+  display: flex;
+  width: 371px;
+  height: 53px;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-direction: column;
+  position: relative;
+}
+
+.index .text-wrapper {
+  position: relative;
+  width: fit-content;
+  font-family: var(--heading-36px-medium-font-family);
+  font-weight: var(--heading-36px-medium-font-weight);
+  color: var(--text-2);
+  font-size: var(--heading-36px-medium-font-size);
+  letter-spacing: var(--heading-36px-medium-letter-spacing);
+  line-height: var(--heading-36px-medium-line-height);
+  white-space: nowrap;
+  font-style: var(--heading-36px-medium-font-style);
+}
+
+.index .frame-2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;
+  flex: 0 0 auto;
+  flex-direction: column;
+  position: relative;
+}
+
+.index .frame-3 {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 40px;
+  flex: 0 0 auto;
+  flex-direction: column;
+  position: relative;
+}
+
+.index .frame-4 {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 0 0 auto;
+  flex-direction: column;
+  position: relative;
+}
+
+.index .text-wrapper-2 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  opacity: 0.4;
+  font-family: var(--title-16px-regular-font-family);
+  font-weight: var(--title-16px-regular-font-weight);
+  color: var(--text-2);
+  font-size: var(--title-16px-regular-font-size);
+  letter-spacing: var(--title-16px-regular-letter-spacing);
+  line-height: var(--title-16px-regular-line-height);
+  white-space: nowrap;
+  font-style: var(--title-16px-regular-font-style);
+}
+
+.index .under-line {
+  position: relative;
+  width: 370px;
+  height: 1px;
+  opacity: 0.5;
+  background-image: url(./img/line-1-2.svg);
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.index .button-wrapper {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 0 0 auto;
+  flex-direction: column;
+  position: relative;
+}
+
+.index .button {
+  display: flex;
+  width: 371px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 122px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: var(--button-2);
+  border-radius: 4px;
+  all: unset;
+  box-sizing: border-box;
+}
+
+.index .text-wrapper-3 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: var(--title-16px-medium-font-family);
+  font-weight: var(--title-16px-medium-font-weight);
+  color: var(--text);
+  font-size: var(--title-16px-medium-font-size);
+  letter-spacing: var(--title-16px-medium-letter-spacing);
+  line-height: var(--title-16px-medium-line-height);
+  white-space: nowrap;
+  font-style: var(--title-16px-medium-font-style);
+}
+
+.index .login {
+  display: flex;
+  flex-direction: column;
+  width: 371px;
+  height: 373px;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  top: 392px;
+  left: 814px;
+}
+
+.index .frame-5 {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 48px;
+  flex: 0 0 auto;
+  flex-direction: column;
+  position: relative;
+}
+
+.index .under-line-2 {
+  background-image: url(./img/line-1-4.svg);
+  position: relative;
+  width: 370px;
+  height: 1px;
+  opacity: 0.5;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.index .div-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 371px;
+  align-items: flex-start;
+  gap: 16px;
+  position: relative;
+  flex: 0 0 auto;
+}

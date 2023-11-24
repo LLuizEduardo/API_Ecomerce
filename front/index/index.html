@@ -17,15 +17,11 @@
             <script>
               fetch('produtos.json')
                 .then((response) => response.json())
-                .then(json => {
-                  // Assuming json is an array of products
-                  
+                .then(json => {                 
                   json.forEach(product => {
-                    // Create a new div element for each product
                     var newDiv = document.createElement('div');
                     newDiv.className = 'item-promo';
 
-                    // Create and append the inner HTML for the product
                     newDiv.innerHTML = `
                       <div class="cart">
                         <div class="overlap-group">
@@ -44,43 +40,10 @@
                       </div>
                     `;
 
-                    // Append the new div to the container
                     document.getElementById('container').appendChild(newDiv);
                   });
                 })
                 .catch(error => console.error('Error fetching data:', error));
-
-
-
-
-
-              // var newDiv = document.createElement('div');
-              //       newDiv.className = 'item-promo';
-
-              //       // Create and append the inner HTML for the product
-              //       newDiv.innerHTML = `
-              //         <div class="cart">
-              //           <div class="overlap-group">
-              //             <div class="div">
-              //               <img class="img" src="img/cart1-9.svg" />
-              //               <div class="text-wrapper">Adicionar ao carrinho</div>
-              //             </div>
-              //           </div>
-              //           <div class="img-wrapper"><img class="combo-galera" src="gweagsg" /></div>
-              //         </div>
-              //         <div class="frame">
-              //           <div class="text-wrapper-2">ghertger</div>
-              //           <div class="div-wrapper">
-              //             <div class="text-wrapper-3">fewrfgerg R$</div>
-              //           </div>
-              //         </div>
-              //       `;
-
-              //       // Append the new div to the container
-              //       document.getElementById('container').appendChild(newDiv);
-
-
-
             </script>
 
 
@@ -101,9 +64,10 @@
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
-        <div class="frame-populares">
+        <!-- <div class="frame-populares">
           <img class="populares" src="img/populares.png" />
           <div class="frame-populares-2">
             <div class="item-popu">
@@ -123,128 +87,8 @@
                 </div>
               </div>
             </div>
-            <div class="item-popu-2">
-              <div class="cart-2">
-                <div class="overlap-group">
-                  <div class="div">
-                    <img class="img" src="img/cart1-1.svg" />
-                    <div class="text-wrapper">Adicionar ao carrinho</div>
-                  </div>
-                </div>
-                <div class="img-wrapper"><img class="com-granulado" src="img/com-granulado-1.png" /></div>
-              </div>
-              <div class="frame-2">
-                <div class="text-wrapper-2">Cupcake com granulado</div>
-                <div class="div-wrapper">
-                  <div class="text-wrapper-3">5,50 R$</div>
-                </div>
-              </div>
-            </div>
-            <div class="item-popu-3">
-              <div class="cart">
-                <div class="overlap-group">
-                  <div class="div">
-                    <img class="img" src="img/cart1-1.svg" />
-                    <div class="text-wrapper">Adicionar ao carrinho</div>
-                  </div>
-                </div>
-                <div class="img-wrapper"><img class="cupckade-de-creme" src="img/cupckade-de-creme-1.png" /></div>
-              </div>
-              <div class="frame">
-                <div class="text-wrapper-2">Cupcake de creme</div>
-                <div class="div-wrapper">
-                  <div class="text-wrapper-3">5,00 R$</div>
-                </div>
-              </div>
-            </div>
-            <div class="item-popu-4">
-              <div class="cart-2">
-                <div class="overlap-group">
-                  <div class="div">
-                    <img class="img" src="img/cart1-1.svg" />
-                    <div class="text-wrapper">Adicionar ao carrinho</div>
-                  </div>
-                </div>
-                <div class="img-wrapper"><img class="img-2" src="img/cupcake-de-morango.png" /></div>
-              </div>
-              <div class="frame-2">
-                <div class="text-wrapper-2">Cupcake de morango</div>
-                <div class="div-wrapper">
-                  <div class="text-wrapper-3">6,00 R$</div>
-                </div>
-              </div>
-            </div>
-            <div class="div-3">
-              <div class="cart">
-                <div class="overlap-group">
-                  <div class="div">
-                    <img class="img" src="img/cart1-1.svg" />
-                    <div class="text-wrapper">Adicionar ao carrinho</div>
-                  </div>
-                </div>
-                <div class="img-wrapper"><img class="cupcake-de-chocolate" src="img/cupcake-de-chocolate.png" /></div>
-              </div>
-              <div class="frame">
-                <div class="text-wrapper-2">Cupcake de chocolate</div>
-                <div class="div-wrapper">
-                  <div class="text-wrapper-3">4,50 R$</div>
-                </div>
-              </div>
-            </div>
-            <div class="div-2">
-              <div class="cart-2">
-                <div class="overlap-group">
-                  <div class="div">
-                    <img class="img" src="img/cart1-1.svg" />
-                    <div class="text-wrapper">Adicionar ao carrinho</div>
-                  </div>
-                </div>
-                <div class="img-wrapper"><img class="cupcake-de-pamonha" src="img/cupcake-de-pamonha.png" /></div>
-              </div>
-              <div class="frame-2">
-                <div class="text-wrapper-2">Cupcake de pamonha</div>
-                <div class="div-wrapper">
-                  <div class="text-wrapper-3">5,50 R$</div>
-                </div>
-              </div>
-            </div>
-            <div class="div-3">
-              <div class="cart">
-                <div class="overlap-group">
-                  <div class="div">
-                    <img class="img" src="img/cart1-1.svg" />
-                    <div class="text-wrapper">Adicionar ao carrinho</div>
-                  </div>
-                </div>
-                <div class="img-wrapper">
-                  <img class="cupcake-de" src="img/cupcake-de-brigadeiro-com-leite-em-p.png" />
-                </div>
-              </div>
-              <div class="frame">
-                <p class="text-wrapper-2">Cupcake com leite em pó</p>
-                <div class="div-wrapper">
-                  <div class="text-wrapper-3">7,50 R$</div>
-                </div>
-              </div>
-            </div>
-            <div class="div-2">
-              <div class="cart-2">
-                <div class="overlap-group">
-                  <div class="div">
-                    <img class="img" src="img/cart1-1.svg" />
-                    <div class="text-wrapper">Adicionar ao carrinho</div>
-                  </div>
-                </div>
-                <div class="frame-3"></div>
-              </div>
-              <div class="frame-2">
-                <div class="text-wrapper-2">Cupcake de vanilla</div>
-                <div class="div-wrapper">
-                  <div class="text-wrapper-3">5,50 R$</div>
-                </div>
-              </div>
-            </div>
-          </div>
+           </div>
+          </div> -->
         </div>
         <img class="cupcackes" src="img/s2-cupcackes-1-1.png" />
         <div class="menu-superior">
@@ -259,28 +103,3 @@
 </body>
 
 </html>
-<script>
-//   fetch('produtos.json')
-//     .then((response) => response.json())
-//     // .then((json) => console.log(json));
-//     //  .then((json)=>document.getElementById('descricao').textContent=json.descricao)
-//     // debugger
-//     // console.log(result.descricao)
-//     //  document.getElementById('descricao').textContent=result.descricao
-
-//     .then(json=>
-// document.getElementById('promo').innerHTML=json[0]
-//     )
-
-//     var newDiv = document.createElement('div');
-
-// // Set attributes for the div
-// newDiv.className = 'item-promo';
-// newDiv.textContent = 'Hello, world!';
-
-// // Append the new div to an existing element with id 'container'
-// document.getElementById('container').appendChild(newDiv);
-
-
-
-</script>

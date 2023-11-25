@@ -74,7 +74,7 @@
                       newDiv.innerHTML =
                         `<div class="item">
                 <div class="valor-unidade-item">${item.produto.preco}</div>
-                  <div class="valor-total-item">${item.produto.preco*item.quantidade}</div>
+                  <div class="valor-total-item">${item.produto.preco * item.quantidade}</div>
                     <div class="quantidade-item">
                       <div class="frame-4">
                         <div class="text-wrapper-2">${item.quantidade}</div>
@@ -117,7 +117,7 @@
             <div class="text-wrapper-6">Total do carrinho</div>
             <div class="frame-10">
               <div class="text-wrapper">Valor total:</div>
-              <div class="text-wrapper">$1750</div>
+              <div class="text-wrapper" id="valorTotal"></div>
             </div>
             <div class="button-finalizar">
               <div class="text-wrapper-5">Finalizar compra</div>
@@ -139,11 +139,10 @@
 
 </html>
 <script>
-  // let precos = document.getElementsByClassName('valor-unidade-item')
-  // for (let i = 0; i < precos.length; i = i + 1) {
-  //   // alert(precos[i].textContent);
-  //   document.getElementsByClassName('valor-total-item')[i].textContent = precos[i].textContent * 5
-  // }
+
+  fetch('http://localhost:4877/Carrinho/valorTotal')
+                  .then((response) => response.json())
+                  .then(json => document.getElementById('valorTotal').textContent =json);
 
 
 

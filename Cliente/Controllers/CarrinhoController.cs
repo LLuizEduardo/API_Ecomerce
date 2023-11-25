@@ -29,6 +29,19 @@ namespace API.Controllers
             return res;
         }
 
+        [HttpGet]
+        [Route("valorTotal")]
+        public double GetValorTotal()
+        {
+            var res = _banco.ItemCarrinho.Include(x => x.Produto).ToList();
+            var valorTotal = 0.0;
+            foreach (var item in res)
+            {
+                valorTotal += item.Produto.Preco * item.Quantidade;
+            }
+            return valorTotal;
+        }
+
         [HttpPost]
         [Route("adicionar")]
         public async Task<ItemCarrinho> Post(int idProduto,

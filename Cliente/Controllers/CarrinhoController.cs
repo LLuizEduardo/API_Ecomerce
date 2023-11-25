@@ -1,6 +1,7 @@
 ﻿using API.Domain.Models;
 using API.Infraestructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,16 +25,19 @@ namespace API.Controllers
         [Route("ver")]
         public IEnumerable<ItemCarrinho> Get()
         {
-            return _banco.ItemCarrinho.ToList();
+            var res = _banco.ItemCarrinho.Include(x => x.Produto).ToList();
+            return res;
         }
 
         [HttpPost]
         [Route("adicionar")]
-        public async Task<ItemCarrinho> Post(Produto produto,
+        public async Task<ItemCarrinho> Post(int idProduto,
                                          int quantidade)
         {
             try
             {
+                var produto = _banco.Produto.Where(x => x.Id == idProduto).FirstOrDefault();
+
                 var carrinho = new ItemCarrinho
                 {
                     DataAdicao = DateTime.Now,

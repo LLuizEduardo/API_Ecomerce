@@ -86,7 +86,7 @@
                   </div>
                 <div class="overlap">
                   <div class="frame-foto-item"><img class="gcq-x" src="img/g27cq4-500x500-1.png" /></div>
-                  <div class="icone-cancelar">
+                  <div class="icone-cancelar" onclick="cancelarItem(${item.id})">
                     <div class="overlap-group"><img class="vector" src="img/vector.svg" /></div>
                   </div>
                 </div>
@@ -141,9 +141,15 @@
 <script>
 
   fetch('http://localhost:4877/Carrinho/valorTotal')
-                  .then((response) => response.json())
-                  .then(json => document.getElementById('valorTotal').textContent =json);
+    .then((response) => response.json())
+    .then(json => document.getElementById('valorTotal').textContent = json);
 
 
-
+  function cancelarItem(id) {
+    fetch('http://localhost:4877/Carrinho/apagar?id=' + id,
+      {
+        method: 'DELETE',
+      })
+    location.reload(true);
+  }
 </script>

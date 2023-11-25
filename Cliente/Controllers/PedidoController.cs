@@ -1,7 +1,10 @@
 ﻿using API.Domain.Models;
 using API.Infraestructure.Data;
+using Domain.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -22,23 +25,51 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<Pedido> Post()
+        //public async Task<IEnumerable<PedidoDetalhes>> Post(int[] idsProduto,
+        //                                                    int[] quantidades,
+        //                                                    double[] subtotais)
+        //double totalCompra)
+        public async Task<IEnumerable<PedidoDetalhes>> Post(
+                        [FromBody] List<ItensCarrinho> itens)
         {
             try
             {
-                var pedido = new Pedido
-                {
-                    DataPedido = DateTime.Now,
-                    //DataEnvio = dataEnvio,
-                    //Cliente = cliente,
-                    Status = EStatus.Realizado,
-                    //InformacaoEnvio = informacaoEnvio
-                };
+                var detalhesPedido = new List<PedidoDetalhes>();
+                var produtos = await _banco.Produto.ToListAsync();
 
-                _banco.Add(pedido);
+                foreach (var item in itens)
+                {
+                    detalhesPedido.Add(new PedidoDetalhes()
+                    {
+                        Produto = produtos.Where(x => x.Id == item.Id).FirstOrDefault(),
+                        Quantidade = item.Quantidade,
+                        Subtotal = item.Subtotal,
+                    });
+
+                }
+                await _banco.PedidoDetalhes.AddRangeAsync(detalhesPedido);
                 await _banco.SaveChangesAsync();
 
-                return pedido;
+
+
+                //var pedido = new Pedido
+                //{
+                //    PedidoDetalhes = new()
+                //    {
+                //        Produto = Produto,
+                //        Quantidade = quantidade
+                //    },
+                //    DataPedido = DateTime.Now,
+                //    DataEnvio = DateTime.Now.AddDays(new Random().Next(5, 10)),
+                //    Cliente = new(),
+                //    Status = EStatus.Realizado,
+                //    //InformacaoEnvio = informacaoEnvio
+                //};
+
+                //_banco.Add(pedido);
+                //await _banco.SaveChangesAsync();
+
+                return null;
             }
             catch (Exception ex)
             {

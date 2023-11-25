@@ -45,7 +45,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("adicionar")]
         public async Task<ItemCarrinho> Post(int idProduto,
-                                         int quantidade)
+                                             int quantidade)
         {
             try
             {

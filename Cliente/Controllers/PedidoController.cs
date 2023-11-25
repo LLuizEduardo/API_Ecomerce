@@ -23,51 +23,44 @@ namespace API.Controllers
             _banco = banco;
         }
 
+        [HttpGet]
+        [Route("buscarTodos")]
+        public IEnumerable<PedidoDetalhes> Get()
+        {
+            return _banco.PedidoDetalhes.Include(x => x.Produto).ToList();
+        }
+
+
+
         [HttpPost]
         [Route("criarNovo")]
-        //public async Task<IEnumerable<PedidoDetalhes>> Post(int[] idsProduto,
-        //                                                    int[] quantidades,
-        //                                                    double[] subtotais)
-        //double totalCompra)
-        public async Task<IEnumerable<PedidoDetalhes>> Post(
-                        [FromBody] List<ItensCarrinho> itens)
+        public async Task<PedidoDetalhes> Post()
         {
             try
             {
                 var detalhesPedido = new List<PedidoDetalhes>();
-                var produtos = await _banco.Produto.ToListAsync();
+                var itemCarrinhos = _banco.ItemCarrinho
+                                        .Include(x => x.Produto)
+                                        .Where(x => x.Ativo == true)
+                                        .ToList();
 
-                foreach (var item in itens)
+                foreach (var item in itemCarrinhos)
                 {
                     detalhesPedido.Add(new PedidoDetalhes()
                     {
-                        Produto = produtos.Where(x => x.Id == item.Id).FirstOrDefault(),
+                        Produto = item.Produto,
                         Quantidade = item.Quantidade,
-                        Subtotal = item.Subtotal,
+                        Subtotal = item.Produto.Preco * item.Quantidade,
                     });
 
+                    item.Ativo = false;
                 }
+
                 await _banco.PedidoDetalhes.AddRangeAsync(detalhesPedido);
                 await _banco.SaveChangesAsync();
 
-
-
-                //var pedido = new Pedido
-                //{
-                //    PedidoDetalhes = new()
-                //    {
-                //        Produto = Produto,
-                //        Quantidade = quantidade
-                //    },
-                //    DataPedido = DateTime.Now,
-                //    DataEnvio = DateTime.Now.AddDays(new Random().Next(5, 10)),
-                //    Cliente = new(),
-                //    Status = EStatus.Realizado,
-                //    //InformacaoEnvio = informacaoEnvio
-                //};
-
-                //_banco.Add(pedido);
-                //await _banco.SaveChangesAsync();
+                _banco.ItemCarrinho.UpdateRange(itemCarrinhos);
+                await _banco.SaveChangesAsync();
 
                 return null;
             }
@@ -76,6 +69,5 @@ namespace API.Controllers
                 throw new Exception(ex.Message.ToString());
             }
         }
-
     }
 }

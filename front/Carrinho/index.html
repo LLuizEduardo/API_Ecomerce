@@ -119,7 +119,7 @@
               <div class="text-wrapper">Valor total:</div>
               <div class="text-wrapper" id="valorTotal"></div>
             </div>
-            <div class="button-finalizar">
+            <div class="button-finalizar" onclick="finalizarCompra()">
               <div class="text-wrapper-5">Finalizar compra</div>
             </div>
             <div class="under-line"><img class="line" src="img/line-1.svg" /></div>
@@ -151,5 +151,12 @@
         method: 'DELETE',
       })
     location.reload(true);
+  }
+
+  function finalizarCompra() {
+    fetch('http://localhost:4877/Pedido/criarNovo',
+      {
+        method: 'POST',
+      })
   }
 </script>

@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="globals.css" />
-    <link rel="stylesheet" href="styleguide.css" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="cart">
-      <div class="div">
-        <div class="frame">
-          <div class="frame-wrapper">
-            <div class="frame-2">
-              <div class="cabecalho-itens">
-                <div class="frame-3">
-                  <div class="text-wrapper">Item</div>
-                  <div class="text-wrapper">Preço</div>
-                  <div class="text-wrapper">Quantidade</div>
-                  <div class="text-wrapper">Total</div>
-                </div>
+
+<head>
+  <link rel="stylesheet" href="globals.css" />
+  <link rel="stylesheet" href="styleguide.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="cart">
+    <div class="div">
+      <div class="frame">
+        <div class="frame-wrapper">
+          <div class="frame-2">
+            <div class="cabecalho-itens">
+              <div class="frame-3">
+                <div class="text-wrapper">Item</div>
+                <div class="text-wrapper">Preço(R$)</div>
+                <div class="text-wrapper">Quantidade</div>
+                <div class="text-wrapper">Total(R$)</div>
               </div>
-              <div class="item">
-                <div class="valor-unidade-item">$650</div>
-                <div class="valor-total-item">$650</div>
+            </div>
+            <div class="itens" id="container">
+              <!-- <div class="item">
+                <div class="valor-unidade-item">650</div>
+                <div class="valor-total-item">650</div>
                 <div class="quantidade-item">
                   <div class="frame-4">
-                    <div class="text-wrapper-2">01</div>
+                    <div class="text-wrapper-2">02</div>
                     <div class="frame-5">
                       <img class="img" src="img/drop-up-small-1.svg" />
                       <img class="img" src="img/drop-down-small-1.svg" />
@@ -38,8 +41,8 @@
                   </div>
                 </div>
                 <div class="text-wrapper-3">LCD Monitor</div>
-              </div>
-              <div class="item">
+              </div> -->
+              <!-- <div class="item">
                 <div class="valor-unidade-item">$550</div>
                 <div class="valor-total-item">$1100</div>
                 <div class="quantidade-item">
@@ -58,33 +61,102 @@
                   </div>
                 </div>
                 <div class="text-wrapper-3">H1 Gamepad</div>
-              </div>
-            </div>
-          </div>
-          <div class="frame-7">
-            <div class="frame-8">
-              <div class="div-wrapper"><div class="text-wrapper-4">Coupom</div></div>
-              <div class="boto-aplicar-cupom"><div class="text-wrapper-5">Aplicar Coupom</div></div>
-            </div>
-            <div class="frame-9">
-              <div class="text-wrapper-6">Total do carrinho</div>
-              <div class="frame-10">
-                <div class="text-wrapper">Valor total:</div>
-                <div class="text-wrapper">$1750</div>
-              </div>
-              <div class="button-finalizar"><div class="text-wrapper-5">Finalizar compra</div></div>
-              <div class="under-line"><img class="line" src="img/line-1.svg" /></div>
+              </div> -->
+
+              <script>
+                fetch('http://localhost:4877/Carrinho/ver')
+                  .then((response) => response.json())
+                  .then(json => {
+                    json.forEach(item => {
+                      var newDiv = document.createElement('div');
+                      newDiv.className = 'item';
+
+                      newDiv.innerHTML =
+                        `<div class="item">
+                <div class="valor-unidade-item">${item.produto.preco}</div>
+                  <div class="valor-total-item">${item.produto.preco * item.quantidade}</div>
+                    <div class="quantidade-item">
+                      <div class="frame-4">
+                        <div class="text-wrapper-2">${item.quantidade}</div>
+                        <div class="frame-5">
+                          <img class="img" src="img/drop-up-small-1.svg" />
+                          <img class="img" src="img/drop-down-small-1.svg" />
+                        </div>
+                      </div>
+                  </div>
+                <div class="overlap">
+                  <div class="frame-foto-item"><img class="gcq-x" src="img/g27cq4-500x500-1.png" /></div>
+                  <div class="icone-cancelar" onclick="cancelarItem(${item.id})">
+                    <div class="overlap-group"><img class="vector" src="img/vector.svg" /></div>
+                  </div>
+                </div>
+                <div class="text-wrapper-3">${item.produto.nomeProduto}</div>
+              </div>`;
+
+                      document.getElementById('container').appendChild(newDiv);
+                    });
+                  })
+                  .catch(error => console.error('Error fetching data:', error));
+
+
+
+              </script>
             </div>
           </div>
         </div>
-        <div class="overlap-2">
-          <div class="menu-superior">
-            <div class="icone-compra"></div>
-            <img class="icone-usuario" src="img/icone-usuario.svg" />
+        <div class="frame-7">
+          <div class="frame-8">
+            <div class="div-wrapper">
+              <div class="text-wrapper-4">Coupom</div>
+            </div>
+            <div class="boto-aplicar-cupom">
+              <div class="text-wrapper-5">Aplicar Coupom</div>
+            </div>
           </div>
-          <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
+          <div class="frame-9">
+            <div class="text-wrapper-6">Total do carrinho</div>
+            <div class="frame-10">
+              <div class="text-wrapper">Valor total:</div>
+              <div class="text-wrapper" id="valorTotal"></div>
+            </div>
+            <div class="button-finalizar" onclick="finalizarCompra()">
+              <div class="text-wrapper-5">Finalizar compra</div>
+            </div>
+            <div class="under-line"><img class="line" src="img/line-1.svg" /></div>
+          </div>
         </div>
       </div>
+      <div class="overlap-2">
+        <div class="menu-superior">
+          <div class="icone-compra"></div>
+          <img class="icone-usuario" src="img/icone-usuario.svg" />
+        </div>
+        <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
+<script>
+
+  fetch('http://localhost:4877/Carrinho/valorTotal')
+    .then((response) => response.json())
+    .then(json => document.getElementById('valorTotal').textContent = json);
+
+
+  function cancelarItem(id) {
+    fetch('http://localhost:4877/Carrinho/apagar?id=' + id,
+      {
+        method: 'DELETE',
+      })
+    location.reload(true);
+  }
+
+  function finalizarCompra() {
+    fetch('http://localhost:4877/Pedido/criarNovo',
+      {
+        method: 'POST',
+      })
+  }
+</script>

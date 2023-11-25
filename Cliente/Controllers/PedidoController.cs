@@ -1,7 +1,10 @@
 ﻿using API.Domain.Models;
 using API.Infraestructure.Data;
+using Domain.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -20,31 +23,51 @@ namespace API.Controllers
             _banco = banco;
         }
 
+        [HttpGet]
+        [Route("buscarTodos")]
+        public IEnumerable<PedidoDetalhes> Get()
+        {
+            return _banco.PedidoDetalhes.Include(x => x.Produto).ToList();
+        }
+
+
+
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<Pedido> Post()
+        public async Task<PedidoDetalhes> Post()
         {
             try
             {
-                var pedido = new Pedido
-                {
-                    DataPedido = DateTime.Now,
-                    //DataEnvio = dataEnvio,
-                    //Cliente = cliente,
-                    Status = EStatus.Realizado,
-                    //InformacaoEnvio = informacaoEnvio
-                };
+                var detalhesPedido = new List<PedidoDetalhes>();
+                var itemCarrinhos = _banco.ItemCarrinho
+                                        .Include(x => x.Produto)
+                                        .Where(x => x.Ativo == true)
+                                        .ToList();
 
-                _banco.Add(pedido);
+                foreach (var item in itemCarrinhos)
+                {
+                    detalhesPedido.Add(new PedidoDetalhes()
+                    {
+                        Produto = item.Produto,
+                        Quantidade = item.Quantidade,
+                        Subtotal = item.Produto.Preco * item.Quantidade,
+                    });
+
+                    item.Ativo = false;
+                }
+
+                await _banco.PedidoDetalhes.AddRangeAsync(detalhesPedido);
                 await _banco.SaveChangesAsync();
 
-                return pedido;
+                _banco.ItemCarrinho.UpdateRange(itemCarrinhos);
+                await _banco.SaveChangesAsync();
+
+                return null;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message.ToString());
             }
         }
-
     }
 }

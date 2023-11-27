@@ -34,19 +34,21 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<PedidoDetalhes> Post()
+        public async Task<PedidoDetalhes> Post(int idCliente)
         {
             try
             {
                 var detalhesPedido = new List<PedidoDetalhes>();
-                var itemCarrinhos = _banco.ItemCarrinho
+                var itemCarrinhos = await _banco.ItemCarrinho
                                         .Include(x => x.Produto)
-                                        .ToList();
+                                        .ToListAsync();
+
+                var cliente = await _banco.Cliente.Where(x => x.Id == idCliente).FirstOrDefaultAsync();
 
 
                 var pedido = new Pedido()
                 {
-                    //Cliente =,
+                    Cliente = cliente,
                     DataPedido = DateTime.Now,
                     DataEnvio = DateTime.Now.AddDays(1),
                     Status = EStatus.Realizado,

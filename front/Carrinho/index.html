@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="globals.css" />
-    <link rel="stylesheet" href="styleguide.css" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="cart">
-      <div class="div">
-        <div class="frame-pagina">
-          <div class="frame-items">
-            <div class="cabecalho-itens">
-              <div class="frame-alinhamento">
-                <div class="text-wrapper">Item</div>
-                <div class="text-wrapper">Preço</div>
-                <div class="text-wrapper">Quantidade</div>
-                <div class="text-wrapper">Total</div>
-              </div>
+
+<head>
+  <link rel="stylesheet" href="globals.css" />
+  <link rel="stylesheet" href="styleguide.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="cart">
+    <div class="div">
+      <div class="frame-pagina">
+        <div class="frame-items">
+          <div class="cabecalho-itens">
+            <div class="frame-alinhamento">
+              <div class="text-wrapper">Item</div>
+              <div class="text-wrapper">Preço</div>
+              <div class="text-wrapper">Quantidade</div>
+              <div class="text-wrapper">Total</div>
             </div>
-            <!--<div class="item">
+          </div>
+          <!--<div class="item">
               <div class="valor-unidade-item">$650</div>
               <div class="valor-total-item">$650</div>
               <div class="quantidade-item">
@@ -58,8 +60,8 @@
               <div class="text-wrapper-3">H1 Gamepad</div>
             </div>
           </div>-->
-         <div id="container"></div>
-         <script>
+          <div id="container"></div>
+          <script>
             fetch('http://localhost:4877/Carrinho/ver')
               .then((response) => response.json())
               .then(json => {
@@ -96,10 +98,14 @@
           </script>
           <div class="frame-baixo">
             <div class="frame-cupom">
-              <div class="nome-c-upom"><div class="text-wrapper-4">Coupom</div></div>
-            <button class="button">
-              <div class="boto-aplicar-cupom"><div class="text-wrapper-5">Aplicar Coupom</div></div>
-            </button>
+              <div class="nome-c-upom">
+                <div class="text-wrapper-4">Coupom</div>
+              </div>
+              <button class="button">
+                <div class="boto-aplicar-cupom">
+                  <div class="text-wrapper-5">Aplicar Coupom</div>
+                </div>
+              </button>
             </div>
             <div class="frame-total-carrinho">
               <div class="text-wrapper-6">Total do carrinho</div>
@@ -116,14 +122,15 @@
         </div>
         <div class="overlap-2">
           <div class="menu-superior">
-            <a href="../carrinho/index.html"> <img class="cart-2" src="img/cart.png" /></a> 
-            <a href="../cadastro-login/index.html"><img class="icone-usuario" src="img/icone-usuario.png" /></a>       
+            <a href="../carrinho/index.html"> <img class="cart-2" src="img/cart.png" /></a>
+            <a href="../cadastro-login/index.html"><img class="icone-usuario" src="img/icone-usuario.png" /></a>
           </div>
           <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
         </div>
       </div>
     </div>
-  </body>
+</body>
+
 </html>
 <script>
 
@@ -134,17 +141,14 @@
 
   function cancelarItem(id) {
     fetch('http://localhost:4877/Carrinho/apagar?id=' + id,
-      {
-        method: 'DELETE',
-      })
+      { method: 'DELETE', })
     location.reload(true);
   }
 
-  function finalizarCompra() {
-    fetch('http://localhost:4877/Pedido/criarNovo',
-      {
-        method: 'POST',
-      })
-      alert('Pedido finalizado.')
+  function finalizarCompra(idCliente) {
+    fetch('http://localhost:4877/Pedido/criarNovo?idCliente=' + idCliente,
+      { method: 'POST', })
+    alert('Pedido finalizado.')
   }
+  
 </script>

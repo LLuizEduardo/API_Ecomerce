@@ -33,8 +33,13 @@ namespace API.Controllers
         [Route("valorTotal")]
         public double GetValorTotal()
         {
-            var res = _banco.ItemCarrinho.Include(x => x.Produto).ToList();
+            var res = _banco.ItemCarrinho
+                        .Include(x => x.Produto)
+                        .Where(x=>x.Ativo==true)
+                        .ToList();
+
             var valorTotal = 0.0;
+            
             foreach (var item in res)
             {
                 valorTotal += item.Produto.Preco * item.Quantidade;

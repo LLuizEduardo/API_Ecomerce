@@ -1,72 +1,44 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <link rel="stylesheet" href="globals.css" />
-  <link rel="stylesheet" href="styleguide.css" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-<body>
-  <div class="index">
-    <div class="div">
-      <div class="overlap-group">
-        <div class="menu-superior">
-          <div class="icone-compra"></div>
-          <img class="icone-usuario" src="img/icone-usuario.svg" />
-        </div>
-        <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
-      </div>
-      <div class="cadastro">
-        <div class="frame">
-          <div class="text-wrapper">Cadastro</div>
-        </div>
-        <div class="frame-2">
-          <div class="frame-3">
-            <div class="frame-4">
-              <input class="text-wrapper-2" placeholder="Nome" id="nomeCadastro"></input>
-            </div>
-            <div class="frame-4">
-              <input class="text-wrapper-2" placeholder="Email" id="emailCadastro"></input>
-            </div>
-            <div class="frame-4">
-              <input class="text-wrapper-2" placeholder="Senha" id="enderecoCadastro"></input>
-            </div>
+  <head>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="styleguide.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  
+  <body>
+    <div class="cadastro-login">
+      <div class="div">
+        <div class="frame-cadastro-login">
+          <div class="frame-cadastro">
+            <div class="text-wrapper">Cadastro</div>
+            <input class="text-wrapper-2" placeholder="Nome" id="nomeCadastro"></input>
+            <input class="text-wrapper-2" placeholder="Email" id="emailCadastro"></input>
+            <input class="text-wrapper-2" placeholder="Senha" id="enderecoCadastro"></input>
             <!-- adicionar campo senha -->
-          </div>
-          <div class="button-wrapper">
             <button class="button" onclick="registrar()">
-              <div class="text-wrapper-3">Criar conta</div>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="login">
-        <div class="frame-5">
-          <div class="frame">
-            <div class="text-wrapper">Login</div>
-          </div>
-          <div class="frame-2">
-            <div class="frame-3">
-              <div class="frame-4">
-                <input class="text-wrapper-2" placeholder="Email" id="emailLogin"></input>
-              </div>
-              <div class="frame-4">
-                <input type="password" class="text-wrapper-2" placeholder="Senha" id="senhaLogin"></input>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="div-wrapper">
-          <button class="button" onclick="logar()">
-            <div class="text-wrapper-3">Logar</div>
+            <img class="button" src="img/btn-criar-conta.png" />
           </button>
+          </div>
+          <div class="frame-login">
+            <div class="text-wrapper-3">Login</div>
+            <input class="text-wrapper-2" placeholder="Email" id="emailLogin"></input>
+            <input type="password" class="text-wrapper-2" placeholder="Senha" id="senhaLogin"></input>
+            <button class="button" onclick="logar()">
+            <img class="btn-logar" src="img/btn-logar.png" />
+          </button>
+          </div>
+        </div>
+        <div class="overlap-group">
+          <div class="menu-superior">
+            <a href="../carrinho/index.html"> <img class="cart-2" src="img/cart.png" /></a> 
+            <a href="../cadastro-login/index.html"><img class="icone-usuario" src="img/icone-usuario.png" /></a>
+          </div>
+          <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
         </div>
       </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
 <script>
 

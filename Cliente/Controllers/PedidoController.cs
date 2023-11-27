@@ -41,7 +41,6 @@ namespace API.Controllers
                 var detalhesPedido = new List<PedidoDetalhes>();
                 var itemCarrinhos = _banco.ItemCarrinho
                                         .Include(x => x.Produto)
-                                        .Where(x => x.Ativo == true)
                                         .ToList();
 
                 foreach (var item in itemCarrinhos)
@@ -52,14 +51,12 @@ namespace API.Controllers
                         Quantidade = item.Quantidade,
                         Subtotal = item.Produto.Preco * item.Quantidade,
                     });
-
-                    item.Ativo = false;
                 }
 
                 await _banco.PedidoDetalhes.AddRangeAsync(detalhesPedido);
                 await _banco.SaveChangesAsync();
 
-                _banco.ItemCarrinho.UpdateRange(itemCarrinhos);
+                _banco.ItemCarrinho.RemoveRange(itemCarrinhos);
                 await _banco.SaveChangesAsync();
 
                 return null;

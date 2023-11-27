@@ -25,7 +25,9 @@ namespace API.Controllers
         [Route("ver")]
         public IEnumerable<ItemCarrinho> Get()
         {
-            var res = _banco.ItemCarrinho.Include(x => x.Produto).ToList();
+            var res = _banco.ItemCarrinho
+                        .Include(x => x.Produto)
+                        .ToList();
             return res;
         }
 
@@ -35,11 +37,10 @@ namespace API.Controllers
         {
             var res = _banco.ItemCarrinho
                         .Include(x => x.Produto)
-                        .Where(x=>x.Ativo==true)
                         .ToList();
 
             var valorTotal = 0.0;
-            
+
             foreach (var item in res)
             {
                 valorTotal += item.Produto.Preco * item.Quantidade;
@@ -60,7 +61,7 @@ namespace API.Controllers
                 {
                     DataAdicao = DateTime.Now,
                     Produto = produto,
-                    Quantidade = quantidade
+                    Quantidade = quantidade,
                 };
 
                 _banco.Add(carrinho);

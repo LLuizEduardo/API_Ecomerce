@@ -58,7 +58,8 @@
               <div class="text-wrapper-3">H1 Gamepad</div>
             </div>
           </div>-->
-          <script>
+         <div id="container"></div>
+         <script>
             fetch('http://localhost:4877/Carrinho/ver')
               .then((response) => response.json())
               .then(json => {
@@ -144,5 +145,6 @@
       {
         method: 'POST',
       })
+      alert('Pedido finalizado.')
   }
 </script>

@@ -43,6 +43,16 @@ namespace API.Controllers
                                         .Include(x => x.Produto)
                                         .ToList();
 
+
+                var pedido = new Pedido()
+                {
+                    //Cliente =,
+                    DataPedido = DateTime.Now,
+                    DataEnvio = DateTime.Now.AddDays(1),
+                    Status = EStatus.Realizado,
+                    TipoEnvio = ETipoEnvio.Correio
+                };
+
                 foreach (var item in itemCarrinhos)
                 {
                     detalhesPedido.Add(new PedidoDetalhes()
@@ -50,8 +60,11 @@ namespace API.Controllers
                         Produto = item.Produto,
                         Quantidade = item.Quantidade,
                         Subtotal = item.Produto.Preco * item.Quantidade,
+                        Pedido = pedido
                     });
                 }
+
+
 
                 await _banco.PedidoDetalhes.AddRangeAsync(detalhesPedido);
                 await _banco.SaveChangesAsync();

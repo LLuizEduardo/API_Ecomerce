@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infraestructure.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class Inicio : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,21 +25,6 @@ namespace Infraestructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InfoEnvio",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CustoEnvio = table.Column<double>(type: "float", nullable: false),
-                    TipoEnvio = table.Column<int>(type: "int", nullable: false),
-                    CodEnvio = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InfoEnvio", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Produto",
                 columns: table => new
                 {
@@ -56,6 +41,29 @@ namespace Infraestructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Pedido",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DataPedido = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataEnvio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ClienteId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    TipoEnvio = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pedido", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pedido_Cliente_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Cliente",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ItemCarrinho",
                 columns: table => new
                 {
@@ -63,8 +71,7 @@ namespace Infraestructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProdutoId = table.Column<int>(type: "int", nullable: false),
                     Quantidade = table.Column<int>(type: "int", nullable: false),
-                    DataAdicao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Ativo = table.Column<bool>(type: "bit", nullable: false)
+                    DataAdicao = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,6 +90,7 @@ namespace Infraestructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PedidoId = table.Column<int>(type: "int", nullable: false),
                     ProdutoId = table.Column<int>(type: "int", nullable: false),
                     Quantidade = table.Column<int>(type: "int", nullable: false),
                     Subtotal = table.Column<double>(type: "float", nullable: false)
@@ -91,45 +99,15 @@ namespace Infraestructure.Migrations
                 {
                     table.PrimaryKey("PK_PedidoDetalhes", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_PedidoDetalhes_Pedido_PedidoId",
+                        column: x => x.PedidoId,
+                        principalTable: "Pedido",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_PedidoDetalhes_Produto_ProdutoId",
                         column: x => x.ProdutoId,
                         principalTable: "Produto",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pedido",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PedidoDetalhesId = table.Column<int>(type: "int", nullable: false),
-                    DataPedido = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataEnvio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClienteId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    InformacaoEnvioId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pedido", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pedido_Cliente_ClienteId",
-                        column: x => x.ClienteId,
-                        principalTable: "Cliente",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Pedido_InfoEnvio_InformacaoEnvioId",
-                        column: x => x.InformacaoEnvioId,
-                        principalTable: "InfoEnvio",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Pedido_PedidoDetalhes_PedidoDetalhesId",
-                        column: x => x.PedidoDetalhesId,
-                        principalTable: "PedidoDetalhes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -145,14 +123,9 @@ namespace Infraestructure.Migrations
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pedido_InformacaoEnvioId",
-                table: "Pedido",
-                column: "InformacaoEnvioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pedido_PedidoDetalhesId",
-                table: "Pedido",
-                column: "PedidoDetalhesId");
+                name: "IX_PedidoDetalhes_PedidoId",
+                table: "PedidoDetalhes",
+                column: "PedidoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PedidoDetalhes_ProdutoId",
@@ -166,19 +139,16 @@ namespace Infraestructure.Migrations
                 name: "ItemCarrinho");
 
             migrationBuilder.DropTable(
-                name: "Pedido");
-
-            migrationBuilder.DropTable(
-                name: "Cliente");
-
-            migrationBuilder.DropTable(
-                name: "InfoEnvio");
-
-            migrationBuilder.DropTable(
                 name: "PedidoDetalhes");
 
             migrationBuilder.DropTable(
+                name: "Pedido");
+
+            migrationBuilder.DropTable(
                 name: "Produto");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
         }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructure.Migrations
 {
     [DbContext(typeof(DataContent))]
-    [Migration("20231124232805_Inicial")]
-    partial class Inicial
+    [Migration("20231127231754_Inicio")]
+    partial class Inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,29 +47,6 @@ namespace Infraestructure.Migrations
                     b.ToTable("Cliente");
                 });
 
-            modelBuilder.Entity("API.Domain.Models.InfoEnvio", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CodEnvio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("CustoEnvio")
-                        .HasColumnType("float");
-
-                    b.Property<int>("TipoEnvio")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("InfoEnvio");
-                });
-
             modelBuilder.Entity("API.Domain.Models.ItemCarrinho", b =>
                 {
                     b.Property<int>("Id")
@@ -77,9 +54,6 @@ namespace Infraestructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("DataAdicao")
                         .HasColumnType("datetime2");
@@ -114,22 +88,15 @@ namespace Infraestructure.Migrations
                     b.Property<DateTime>("DataPedido")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("InformacaoEnvioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PedidoDetalhesId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TipoEnvio")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
-
-                    b.HasIndex("InformacaoEnvioId");
-
-                    b.HasIndex("PedidoDetalhesId");
 
                     b.ToTable("Pedido");
                 });
@@ -142,6 +109,9 @@ namespace Infraestructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProdutoId")
                         .HasColumnType("int");
 
@@ -152,6 +122,8 @@ namespace Infraestructure.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PedidoId");
 
                     b.HasIndex("ProdutoId");
 
@@ -203,32 +175,24 @@ namespace Infraestructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Domain.Models.InfoEnvio", "InformacaoEnvio")
-                        .WithMany()
-                        .HasForeignKey("InformacaoEnvioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Domain.Models.PedidoDetalhes", "PedidoDetalhes")
-                        .WithMany()
-                        .HasForeignKey("PedidoDetalhesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Cliente");
-
-                    b.Navigation("InformacaoEnvio");
-
-                    b.Navigation("PedidoDetalhes");
                 });
 
             modelBuilder.Entity("API.Domain.Models.PedidoDetalhes", b =>
                 {
+                    b.HasOne("API.Domain.Models.Pedido", "Pedido")
+                        .WithMany()
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API.Domain.Models.Produto", "Produto")
                         .WithMany()
                         .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Pedido");
 
                     b.Navigation("Produto");
                 });

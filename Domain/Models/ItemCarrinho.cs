@@ -6,6 +6,5 @@ namespace API.Domain.Models
         public Produto Produto { get; set; } = new Produto();
         public int Quantidade { get; set; }
         public DateTime DataAdicao { get; set; }
-        public bool Ativo { get; set; }
     }
 }

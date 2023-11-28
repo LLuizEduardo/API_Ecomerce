@@ -34,15 +34,26 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<PedidoDetalhes> Post()
+        public async Task<PedidoDetalhes> Post(int idCliente)
         {
             try
             {
                 var detalhesPedido = new List<PedidoDetalhes>();
-                var itemCarrinhos = _banco.ItemCarrinho
+                var itemCarrinhos = await _banco.ItemCarrinho
                                         .Include(x => x.Produto)
-                                        .Where(x => x.Ativo == true)
-                                        .ToList();
+                                        .ToListAsync();
+
+                var cliente = await _banco.Cliente.Where(x => x.Id == idCliente).FirstOrDefaultAsync();
+
+
+                var pedido = new Pedido()
+                {
+                    Cliente = cliente,
+                    DataPedido = DateTime.Now,
+                    DataEnvio = DateTime.Now.AddDays(1),
+                    Status = EStatus.Realizado,
+                    TipoEnvio = ETipoEnvio.Correio
+                };
 
                 foreach (var item in itemCarrinhos)
                 {
@@ -51,15 +62,16 @@ namespace API.Controllers
                         Produto = item.Produto,
                         Quantidade = item.Quantidade,
                         Subtotal = item.Produto.Preco * item.Quantidade,
+                        Pedido = pedido
                     });
-
-                    item.Ativo = false;
                 }
+
+
 
                 await _banco.PedidoDetalhes.AddRangeAsync(detalhesPedido);
                 await _banco.SaveChangesAsync();
 
-                _banco.ItemCarrinho.UpdateRange(itemCarrinhos);
+                _banco.ItemCarrinho.RemoveRange(itemCarrinhos);
                 await _banco.SaveChangesAsync();
 
                 return null;

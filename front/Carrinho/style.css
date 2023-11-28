@@ -4,39 +4,33 @@
   flex-direction: row;
   justify-content: center;
   width: 100%;
+  overflow-x: hidden;
 }
 
 .cart .div {
   background-color: #f9c9ae;
-  width: 1440px;
-  height: 1932px;
+  width: 1920px;
+  height: 1080px;
   position: relative;
 }
 
-.cart .frame {
-  display: inline-flex;
+.cart .frame-pagina {
+  display: flex;
   flex-direction: column;
+  width: 1187px;
   align-items: flex-start;
   gap: 80px;
   position: absolute;
-  top: 323px;
-  left: 135px;
+  top: 333px;
+  left: 366px;
 }
 
-.cart .frame-wrapper {
-  display: inline-flex;
+.cart .frame-items {
+  display: flex;
   flex-direction: column;
+  width: 1170px;
   align-items: flex-start;
   gap: 24px;
-  position: relative;
-  flex: 0 0 auto;
-}
-
-.cart .frame-2 {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 40px;
   position: relative;
   flex: 0 0 auto;
 }
@@ -51,7 +45,7 @@
   box-shadow: var(--categogy-5);
 }
 
-.cart .frame-3 {
+.cart .frame-alinhamento {
   display: inline-flex;
   align-items: center;
   gap: 284px;
@@ -124,7 +118,7 @@
   border-color: #00000066;
 }
 
-.cart .frame-4 {
+.cart .frame {
   display: flex;
   width: 48px;
   align-items: center;
@@ -147,7 +141,7 @@
   font-style: var(--title-16px-regular-font-style);
 }
 
-.cart .frame-5 {
+.cart .frame-2 {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -225,7 +219,7 @@
   font-style: var(--title-16px-regular-font-style);
 }
 
-.cart .frame-6 {
+.cart .frame-3 {
   display: flex;
   width: 48px;
   align-items: center;
@@ -243,15 +237,16 @@
   left: 3px;
 }
 
-.cart .frame-7 {
+.cart .frame-baixo {
   display: inline-flex;
   align-items: flex-start;
   gap: 173px;
-  position: relative;
+  position: fixed;
   flex: 0 0 auto;
+  bottom:30px;
 }
 
-.cart .frame-8 {
+.cart .frame-cupom {
   display: inline-flex;
   align-items: flex-end;
   gap: 16px;
@@ -259,7 +254,7 @@
   flex: 0 0 auto;
 }
 
-.cart .div-wrapper {
+.cart .nome-c-upom {
   position: relative;
   width: 300px;
   height: 56px;
@@ -311,7 +306,7 @@
   font-style: var(--title-16px-medium-font-style);
 }
 
-.cart .frame-9 {
+.cart .frame-total-carrinho {
   position: relative;
   width: 470px;
   height: 252px;
@@ -336,7 +331,7 @@
   font-style: var(--title-20px-medium-font-style);
 }
 
-.cart .frame-10 {
+.cart .frame-valor-total {
   display: inline-flex;
   align-items: flex-start;
   gap: 307px;
@@ -345,7 +340,7 @@
   left: 24px;
 }
 
-.cart .button-finalizar {
+.cart .btm-finalizar-compra {
   display: inline-flex;
   align-items: flex-end;
   justify-content: center;
@@ -377,45 +372,52 @@
 }
 
 .cart .overlap-2 {
-  position: absolute;
-  width: 1440px;
-  height: 280px;
+  position: fixed;
+  width: 1920px;
+  height: 220px;
   top: 0;
   left: 0;
-  background-image: url(./img/s2-cupcackes-1-2.png);
+  background-image: url(./img/s2-cupcackes-1.png);
   background-size: cover;
   background-position: 50% 50%;
 }
 
 .cart .menu-superior {
-  display: inline-flex;
+  display: flex;
+  width: 195px;
+  height: 101px;
   align-items: center;
   justify-content: flex-end;
   gap: 20px;
   position: absolute;
-  top: 102px;
-  left: 1124px;
+  top: 60px;
+  left: 1526px;
 }
 
-.cart .icone-compra {
-  background-image: url(./img/cart-1.svg);
-  background-size: 100% 100%;
+.cart .img-2 {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 81px;
+  height: 82px;
 }
 
 .cart .icone-usuario {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 83px;
+  height: 82px;
 }
 
 .cart .logo-home {
   position: absolute;
-  width: 184px;
-  height: 184px;
-  top: 45px;
-  left: 50px;
+  width: 174px;
+  height: 171px;
+  top: 19px;
+  left: 132px;
   object-fit: cover;
+}
+
+
+button {
+  border: 0px;
+  background-color: transparent;
+  cursor:pointer;
 }

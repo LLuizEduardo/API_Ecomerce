@@ -9,20 +9,19 @@
 
 <body>
   <div class="index">
-    <div class="overlap-wrapper">
-      <div class="overlap">
-        <div class="frame-promo">
-          <img class="promoes" src="img/promo-es.png" />
-          <div class="promo" id="container">
-            <script>
-              fetch('http://localhost:4877/Produto/buscarTodos')
-                .then((response) => response.json())
-                .then(json => {
-                  json.forEach(product => {
-                    var newDiv = document.createElement('div');
-                    newDiv.className = 'item-promo';
+    <div class="div">
+      <div class="frame-promo">
+        <h2 class="text-wrapper"><br />Promoções</h2>
+        <div class="promo" id="container">
+          <script>
+            fetch('http://localhost:4877/Produto/buscarTodos')
+              .then((response) => response.json())
+              .then(json => {
+                json.forEach(product => {
+                  var newDiv = document.createElement('div');
+                  newDiv.className = 'item-promo';
 
-                    newDiv.innerHTML = `
+                  newDiv.innerHTML = `
                       <div class="cart">
                         <button class="overlap-group" onclick="clicou(${product.id})">
                           <div class="div">
@@ -40,64 +39,54 @@
                       </div>
                     `;
 
-                    document.getElementById('container').appendChild(newDiv);
-                  });
-                })
-                .catch(error => console.error('Error fetching data:', error));
-            </script>
+                  document.getElementById('container').appendChild(newDiv);
+                });
+              })
+              .catch(error => console.error('Error fetching data:', error));
+          </script>
 
 
-            <div class="item-promo">
-              <div class="cart">
-                <div class="overlap-group">
-                  <div class="div">
-                    <img class="img" src="img/cart1-9.svg" />
-                    <div class="text-wrapper">Adicionar ao carrinho</div>
-                  </div>
-                </div>
-                <div class="img-wrapper"><img class="combo-galera" src="img/combo-galera-1.png" /></div>
-              </div>
+          <div class="cart">
+            <div class="overlap-group">
               <div class="frame">
-                <div class="text-wrapper-2">Combo galera básico 1</div>
-                <div class="div-wrapper">
-                  <div class="text-wrapper-3">25,00 R$</div>
-                </div>
+                <img class="img" src="img/cart1-1.svg" />
+                <div class="text-wrapper-2">Adicionar ao carrinho</div>
               </div>
             </div>
-
+            <div class="combo-galera-wrapper"><img class="combo-galera" src="img/combo-galera-1.png" /></div>
+          </div>
+          <div class="frame-2">
+            <div class="text-wrapper-3">Combo galera básico 1</div>
+            <div class="div-wrapper">
+              <div class="text-wrapper-4">25,00 R$</div>
+            </div>
           </div>
         </div>
-        <!-- <div class="frame-populares">
-          <img class="populares" src="img/populares.png" />
-          <div class="frame-populares-2">
-            <div class="item-popu">
-              <div class="cart">
-                <div class="overlap-group">
-                  <div class="div">
-                    <img class="img" src="img/cart1-1.svg" />
-                    <div class="text-wrapper">Adicionar ao carrinho</div>
-                  </div>
-                </div>
-                <div class="img-wrapper"><img class="oreo" src="img/oreo-1.png" /></div>
-              </div>
-              <div class="frame">
-                <div class="text-wrapper-2">Cupcake com Oreo</div>
-                <div class="div-wrapper">
-                  <div class="text-wrapper-3">5,00 R$</div>
-                </div>
-              </div>
-            </div>
-           </div>
-          </div> -->
       </div>
-      <img class="cupcackes" src="img/s2-cupcackes-1-1.png" />
+
+      <div class="frame-popu">
+        <h2 class="text-wrapper"><br />Populares</h2>
+        <div class="cart">
+          <div class="overlap-group">
+            <div class="frame">
+              <img class="img" src="img/cart1-1.svg" />
+              <div class="text-wrapper-2">Adicionar ao carrinho</div>
+            </div>
+          </div>
+          <div class="combo-galera-wrapper"><img class="combo-galera" src="img/combo-galera-1.png" /></div>
+        </div>
+        <div class="frame-2">
+          <div class="text-wrapper-3">Combo galera básico 1</div>
+          <div class="div-wrapper">
+            <div class="text-wrapper-4">25,00 R$</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overlap">
       <div class="menu-superior">
-        <a href="../carrinho/index.html">
-          <div class="icone-compra"></div>
-        </a>
-        <a href="../cadastro-login/index.html">
-          <img class="icone-usuario" src="img/icone-usuario.svg" />
-        </a>
+        <a href="../carrinho/index.html"> <img class="cart-2" src="img/cart.png" /></a>
+        <a href="../cadastro-login/index.html"><img class="icone-usuario" src="img/icone-usuario.png" /></a>
       </div>
       <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
     </div>
@@ -108,6 +97,10 @@
 </html>
 <script>
   function clicou(id) {
-    alert('Adicionou o item ' + id + ' no carrinho')
+    fetch('http://localhost:4877/Carrinho/adicionar?idProduto=' + id + '&quantidade=1',
+      {
+        method: 'POST',
+      })
+    alert('Item adicionado no carrinho')
   }
 </script>

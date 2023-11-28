@@ -22,7 +22,6 @@ namespace API.Controllers
             _banco = banco;
         }
 
-        [Authorize]
         [HttpGet]
         [Route("ver")]
         public IEnumerable<ItemCarrinho> Get()
@@ -33,7 +32,6 @@ namespace API.Controllers
             return res;
         }
 
-        [Authorize]
         [HttpGet]
         [Route("valorTotal")]
         public double GetValorTotal()
@@ -51,7 +49,6 @@ namespace API.Controllers
             return valorTotal;
         }
 
-        [Authorize]
         [HttpPost]
         [Route("adicionar")]
         public async Task<ItemCarrinho> Post(int idProduto,
@@ -79,7 +76,6 @@ namespace API.Controllers
             }
         }
 
-        [Authorize]
         [HttpPut]
         [Route("editar")]
         public async Task<IActionResult> Put(int id, [FromBody] ItemCarrinho carrinho)
@@ -94,7 +90,6 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [Authorize]
         [HttpDelete]
         [Route("apagar")]
         public async Task Delete(int id)

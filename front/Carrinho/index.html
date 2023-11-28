@@ -145,10 +145,25 @@
     location.reload(true);
   }
 
-  function finalizarCompra(idCliente) {
-    fetch('http://localhost:4877/Pedido/criarNovo?idCliente=' + idCliente,
-      { method: 'POST', })
+  function finalizarCompra() {
+
+    var token = sessionStorage.getItem('token');
+    var idCliente = JSON.parse(atob(token.split('.')[1]));
+
+    if (idCliente == null || idCliente == "") {
+      location.href = "../index/index.html"
+    }
+    else {
+      fetch('http://localhost:4877/Pedido/criarNovo?idCliente=' + idCliente, { method: 'POST', })
+        .then(response => {
+          if (response.status == 200) {
+            alert('deu bom')
+          }
+        })
+    }
+
     alert('Pedido finalizado.')
+    //validar
   }
-  
+
 </script>

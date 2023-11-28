@@ -23,7 +23,7 @@
 
                   newDiv.innerHTML = `
                       <div class="cart">
-                        <button class="overlap-group" onclick="clicou(${product.id})">
+                        <button class="overlap-group" onclick="adicionarCarrinho(${product.id})">
                           <div class="div">
                             <img class="img" src="img/cart1-9.svg" />
                             <div class="text-wrapper">Adicionar ao carrinho</div>
@@ -96,11 +96,13 @@
 
 </html>
 <script>
-  function clicou(id) {
+
+  function adicionarCarrinho(id) {
     fetch('http://localhost:4877/Carrinho/adicionar?idProduto=' + id + '&quantidade=1',
       {
         method: 'POST',
       })
     alert('Item adicionado no carrinho')
   }
+  
 </script>

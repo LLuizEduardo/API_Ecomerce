@@ -56,16 +56,6 @@
     }
   }
 
-  function elementosLogin() {
-    let nome = document.getElementById('emailLogin').value;
-    let email = document.getElementById('senhaLogin').value;
-
-    return {
-      usuario: nome,
-      senha: email
-    }
-  }
-
   function registrar() {
     fetch('http://localhost:4877/Cliente/criarNovo',
       {
@@ -75,10 +65,10 @@
       })
 
     alert('Cadastro realizado com sucesso.')
+    //validar
   }
 
-  function logar() {
-    // alert('Login Realizado')
+  async function logar() {
 
     var user = document.getElementById('emailLogin').value;
     var pass = document.getElementById('senhaLogin').value;
@@ -87,9 +77,20 @@
       alert('Preencha os dados de login')
     }
 
+    var requisicao = await fetch(`http://localhost:4877/Auth/auth?user=${user}&pass=${pass}`,
+      { method: 'POST', })
+      .then((response) => response.json())
+      .then(x => sessionStorage.setItem('token', x.token)
+      )
 
-    fetch(`http://localhost:4877/Auth/auth?user=${user}&pass=${pass}`, { method: 'POST', })
-      .then((response) => response.json()).then(x => sessionStorage.setItem('token', x.token))
+    var status = requisicao.response.status
+
+    if (status == 200) {
+      location.href = "../index/index.html"
+    }
+    else {
+      alert('Login falhou, verifique e tente novamente.')
+    }
   }
 
 

@@ -2,6 +2,7 @@
 using API.Infraestructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,9 +24,9 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("buscarTodos")]
-        public IEnumerable<Produto> Get()
+        public async Task<IEnumerable<Produto>> Get()
         {
-            return _banco.Produto.ToList();
+            return await _banco.Produto.ToListAsync();
         }
 
         [HttpGet]
@@ -53,7 +54,7 @@ namespace API.Controllers
                     Preco = preco
                 };
 
-                _banco.Add(produto);
+                await _banco.AddAsync(produto);
                 await _banco.SaveChangesAsync();
 
                 return produto;

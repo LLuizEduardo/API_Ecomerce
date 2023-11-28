@@ -13,7 +13,7 @@
       <div class="frame-promo">
         <h2 class="text-wrapper"><br />Promoções</h2>
         <div class="promo" id="container">
-          <script>
+          <!-- <script>
             fetch('http://localhost:4877/Produto/buscarTodos')
               .then((response) => response.json())
               .then(json => {
@@ -43,7 +43,7 @@
                 });
               })
               .catch(error => console.error('Error fetching data:', error));
-          </script>
+          </script> -->
 
 
           <div class="cart">
@@ -70,7 +70,7 @@
           <div class="overlap-group">
             <div class="frame">
               <img class="img" src="img/cart1-1.svg" />
-              <div class="text-wrapper-2">Adicionar ao carrinho</div>
+              <div class="text-wrapper-2" onclick="adicionarCarrinho2()">Adicionar ao carrinho</div>
             </div>
           </div>
           <div class="combo-galera-wrapper"><img class="combo-galera" src="img/combo-galera-1.png" /></div>
@@ -104,5 +104,18 @@
       })
     alert('Item adicionado no carrinho')
   }
-  
+
+//   function adicionarCarrinho2() {
+//     // sessionStorage.setItem('produtox',
+//     //   {
+//     //     'id': 1,
+//     //     'nomeProduto': 'rapaduris'
+//     //   })
+
+//     document.cookie = `produto= ${JSON.stringify({
+//       'id': 6,
+//       'nomeProduto': 'carai'
+//     })}`
+// alert('adicionado')
+//   }
 </script>

@@ -1,5 +1,6 @@
 ﻿using API.Domain.Models;
 using API.Infraestructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace API.Controllers
             return _banco.Produto.Where(x => x.Id == id).FirstOrDefault();
         }
 
+        [Authorize]
         [HttpPost]
         [Route("criarNovo")]
         public async Task<Produto> Post(string nomeProduto,
@@ -62,6 +64,7 @@ namespace API.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut]
         [Route("editar")]
         public async Task<IActionResult> Put(int id, [FromBody] Produto produto)
@@ -76,6 +79,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("apagar")]
         public async Task Delete(int id)

@@ -1,5 +1,6 @@
 ﻿using API.Domain.Models;
 using API.Infraestructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace API.Controllers
             _banco = banco;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("buscarTodos")]
         public IEnumerable<Cliente> Get()
@@ -51,6 +53,7 @@ namespace API.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut]
         [Route("editar")]
         public async Task<IActionResult> Put(int id, [FromBody] Cliente cliente)
@@ -65,6 +68,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("apagar")]
         public async Task Delete(int id)

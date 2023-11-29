@@ -25,9 +25,23 @@ namespace API.Controllers
         [Authorize]
         [HttpGet]
         [Route("buscarTodos")]
-        public async Task<IEnumerable<Cliente>> Get()
+        public async Task<IEnumerable<ClienteDTO>> Get()
         {
-            return await _banco.Cliente.ToListAsync();
+            var clientes = await _banco.Cliente.ToListAsync();
+
+            var clientesDTO = new List<ClienteDTO>();
+            foreach (var cliente in clientes)
+            {
+                clientesDTO.Add(new()
+                {
+                    Id = cliente.Id,
+                    NomeCliente = cliente.NomeCliente,
+                    Email = cliente.Email,
+                    Endereco = cliente.Endereco,
+                });
+            }
+
+            return clientesDTO;
         }
 
         [HttpPost]
@@ -41,7 +55,10 @@ namespace API.Controllers
                     NomeCliente = clienteNovo.NomeCliente,
                     Email = clienteNovo.Email,
                     Endereco = clienteNovo.Endereco,
+                    Senha = clienteNovo.Senha
                 };
+
+                cliente.SenhaSetHash();
 
                 await _banco.AddAsync(cliente);
                 await _banco.SaveChangesAsync();

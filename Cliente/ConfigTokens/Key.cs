@@ -1,4 +1,4 @@
-﻿namespace API
+﻿namespace API.ConfigTokens
 {
     public class Key
     {

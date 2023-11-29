@@ -157,30 +157,48 @@
     }
     else {
       if (await !validaToken()) {
+
         location.href = "../index/index.html"
+
       }
       else {
+
         var token = sessionStorage.getItem('token');
 
         if (token != null) {
-          var Cliente = JSON.parse(atob(token.split('.')[1]));
-          var idCliente = Cliente.clienteId
+
           try {
 
-            var requisicao = await fetch(url + 'Pedido/criarNovo?idCliente=' + idCliente,
-              {
-                method: 'POST',
-                headers: { 'Authorization': 'Bearer ' + token }
-              })
-              .then(response => response.json())
+            var Cliente = JSON.parse(atob(token.split('.')[1]));
+            var idCliente = Cliente.clienteId
+
+            if (idCliente > 1) {
+
+              var requisicao = await fetch(url + 'Pedido/criarNovo?idCliente=' + idCliente,
+                {
+                  method: 'POST',
+                  headers: { 'Authorization': 'Bearer ' + token }
+                })
+                .then(response => response.json())
+
+            }
+            else {
+
+              alert('Cliente não autenticado. Faça novamente o login.')
+
+            }
           } catch {
+
             alert('Erro ao comprar. Avaliar e tentar novamente.')
+
           }
 
         }
         else {
+
           alert('Por favor faça o login');
           location.href = "../cadastro-login/index.html"
+        
         }
       }
     }

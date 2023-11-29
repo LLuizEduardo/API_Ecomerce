@@ -14,9 +14,9 @@
         <div class="frame-cadastro">
           <div class="text-wrapper">Cadastro</div>
           <input class="text-wrapper-2" placeholder="Nome" id="nomeCadastro"></input>
+          <input class="text-wrapper-2" placeholder="Endereço" id="enderecoCadastro"></input>
           <input class="text-wrapper-2" placeholder="Email" id="emailCadastro"></input>
-          <input class="text-wrapper-2" placeholder="Senha" id="enderecoCadastro"></input>
-          <!-- adicionar campo senha -->
+          <input type="password" class="text-wrapper-2" placeholder="Senha" id="senhaCadastro"></input>
           <button class="button" onclick="registrar()">
             <img class="button" src="img/btn-criar-conta.png" />
           </button>
@@ -48,11 +48,13 @@
     let nome = document.getElementById('nomeCadastro').value;
     let email = document.getElementById('emailCadastro').value;
     let endereco = document.getElementById('enderecoCadastro').value;
+    let senha = document.getElementById('senhaCadastro').value;
 
     return {
       nomeCliente: nome,
+      Endereco: endereco,
       email: email,
-      Endereco: endereco
+      Senha: senha
     }
   }
 
@@ -86,7 +88,7 @@
           .then((response) => response.json())
           .then(x => sessionStorage.setItem('token', x.token))
           .then(alert('Login realizado com sucesso. Faça seus pedidos'))
-          .then(location.href = "..index/index.html")
+          .then(location.href = "../index/index.html")
       }
       catch {
         alert('Erro no login. Gentileza avaliar suas credenciais e tentar novamente.')

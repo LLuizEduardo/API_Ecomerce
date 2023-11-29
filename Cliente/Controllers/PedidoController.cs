@@ -40,10 +40,15 @@ namespace API.Controllers
         {
             try
             {
+                if (idCliente < 1)
+                    throw new Exception("Cliente não autenticado.");
+
                 var detalhesPedido = new List<PedidoDetalhes>();
                 var itemCarrinhos = await _banco.ItemCarrinho
                                         .Include(x => x.Produto)
                                         .ToListAsync();
+
+                if (itemCarrinhos.Count < 1) return null;
 
                 var cliente = await _banco.Cliente.Where(x => x.Id == idCliente).FirstOrDefaultAsync();
 

@@ -69,27 +69,28 @@
   }
 
   async function logar() {
-
+debugger
     var user = document.getElementById('emailLogin').value;
     var pass = document.getElementById('senhaLogin').value;
 
     if (user == "" || pass == "") {
       alert('Preencha os dados de login')
     }
-
-    var requisicao = await fetch(`http://localhost:4877/Auth/auth?user=${user}&pass=${pass}`,
-      { method: 'POST', })
-      .then((response) => response.json())
-      .then(x => sessionStorage.setItem('token', x.token)
-      )
-
-    var status = requisicao.response.status
-
-    if (status == 200) {
-      location.href = "../index/index.html"
-    }
     else {
-      alert('Login falhou, verifique e tente novamente.')
+      var requisicao = await fetch(`http://localhost:4877/Auth/auth?user=${user}&pass=${pass}`,
+        { method: 'POST', })
+        .then((response) => response.json())
+        .then(x => sessionStorage.setItem('token', x.token)
+        )
+
+      var status = requisicao.response.status
+
+      if (status == 200) {
+        location.href = "../index/index.html"
+      }
+      else {
+        alert('Login falhou, verifique e tente novamente.')
+      }
     }
   }
 

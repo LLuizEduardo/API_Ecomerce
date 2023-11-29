@@ -134,6 +134,8 @@
 </html>
 <script>
 
+  const url = 'http://localhost:4877/'
+
   fetch('http://localhost:4877/Carrinho/valorTotal')
     .then((response) => response.json())
     .then(json => document.getElementById('valorTotal').textContent = json);
@@ -145,25 +147,75 @@
     location.reload(true);
   }
 
-  function finalizarCompra() {
 
-    var token = sessionStorage.getItem('token');
-    var idCliente = JSON.parse(atob(token.split('.')[1]));
-
-    if (idCliente == null || idCliente == "") {
+  async function finalizarCompra() {
+    debugger
+    //validacoes
+    if (!validaQtdItens()) {
+      alert('Carrinho vazio');
       location.href = "../index/index.html"
     }
-    else {
-      fetch('http://localhost:4877/Pedido/criarNovo?idCliente=' + idCliente, { method: 'POST', })
+
+    if (await !validaToken()) {
+      location.href = "../index/index.html"
+    }
+
+    var token = sessionStorage.getItem('token');//tirar
+    // debugger
+    if (token != null) {
+      var Cliente = JSON.parse(atob(token.split('.')[1]));
+      var idCliente = Cliente.clienteId
+
+      // if (idCliente == null || idCliente == "") {
+      //   location.href = "../index/index.html"
+      // }
+      // else {
+      fetch('http://localhost:4877/Pedido/criarNovo?idCliente=' + idCliente,
+        {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
         .then(response => {
           if (response.status == 200) {
             alert('deu bom')
           }
         })
+      // }
+    }
+    else {
+      alert('Por favor faça o login');
+      location.href = "../cadastro-login/index.html"
+
+    }
+    // alert('Pedido finalizado.')
+    //validar
+  }
+
+  function validaQtdItens() {
+    var qtdItens = document.getElementsByClassName('valor-unidade-item').length
+    if (qtdItens > 0) {
+      return true
+    }
+    else {
+      return false
     }
 
-    alert('Pedido finalizado.')
-    //validar
+  }
+
+  async function validaToken() {
+    var token = sessionStorage.getItem('token');
+    var requisicao = await fetch(url + 'Auth/validaToken',
+      {
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(response => { return response.json() });
+
+    var gygy = requisicao.response.json();
+
+    return gygy;
+
+    return false;
   }
 
 </script>

@@ -1,6 +1,7 @@
 ﻿using API.ConfigTokens;
 using API.Domain.Models;
 using API.Infraestructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -35,6 +36,14 @@ namespace API.Controllers
             //}
             var token = TokenService.GerarToken(cliente);
             return Ok(token);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("validaToken")]
+        public bool ValidaToken()
+        {
+            return true;
         }
     }
 }

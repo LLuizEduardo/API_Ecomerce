@@ -134,21 +134,85 @@
 </html>
 <script>
 
-  fetch('http://localhost:4877/Carrinho/valorTotal')
+  const url = 'http://localhost:4877/'
+
+  fetch(url + 'Carrinho/valorTotal')
     .then((response) => response.json())
     .then(json => document.getElementById('valorTotal').textContent = json);
 
 
   function cancelarItem(id) {
-    fetch('http://localhost:4877/Carrinho/apagar?id=' + id,
+    fetch(url + 'Carrinho/apagar?id=' + id,
       { method: 'DELETE', })
     location.reload(true);
   }
 
-  function finalizarCompra(idCliente) {
-    fetch('http://localhost:4877/Pedido/criarNovo?idCliente=' + idCliente,
-      { method: 'POST', })
-    alert('Pedido finalizado.')
+
+  async function finalizarCompra() {
+    debugger
+    //validacoes
+    if (!validaQtdItens()) {
+      alert('Carrinho vazio');
+      location.href = "../index/index.html"
+    }
+    else {
+      if (await !validaToken()) {
+        location.href = "../index/index.html"
+      }
+      else {
+        var token = sessionStorage.getItem('token');
+
+        if (token != null) {
+          var Cliente = JSON.parse(atob(token.split('.')[1]));
+          var idCliente = Cliente.clienteId
+          try {
+
+            var requisicao = await fetch(url + 'Pedido/criarNovo?idCliente=' + idCliente,
+              {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token }
+              })
+              .then(response => response.json())
+          } catch {
+            alert('Erro ao comprar. Avaliar e tentar novamente.')
+          }
+
+        }
+        else {
+          alert('Por favor faça o login');
+          location.href = "../cadastro-login/index.html"
+        }
+      }
+    }
   }
-  
+
+  function validaQtdItens() {
+    debugger
+    var qtdItens = document.getElementsByClassName('valor-unidade-item').length
+    if (qtdItens > 0) {
+      return true
+    }
+    else {
+      return false
+    }
+
+  }
+
+  async function validaToken() {
+    debugger
+    var token = sessionStorage.getItem('token');
+    var requisicao = await fetch(url + 'Auth/validaToken',
+      {
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(response => { return response.json() });
+
+    var gygy = requisicao.response.json();
+
+    return gygy;
+
+    return false;
+  }
+
 </script>

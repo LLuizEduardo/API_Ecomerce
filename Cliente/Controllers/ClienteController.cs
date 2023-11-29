@@ -1,6 +1,8 @@
 ﻿using API.Domain.Models;
 using API.Infraestructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,11 +22,12 @@ namespace API.Controllers
             _banco = banco;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("buscarTodos")]
-        public IEnumerable<Cliente> Get()
+        public async Task<IEnumerable<Cliente>> Get()
         {
-            return _banco.Cliente.ToList();
+            return await _banco.Cliente.ToListAsync();
         }
 
         [HttpPost]
@@ -40,7 +43,7 @@ namespace API.Controllers
                     Endereco = clienteNovo.Endereco,
                 };
 
-                _banco.Add(cliente);
+                await _banco.AddAsync(cliente);
                 await _banco.SaveChangesAsync();
 
                 return cliente;
@@ -51,6 +54,7 @@ namespace API.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut]
         [Route("editar")]
         public async Task<IActionResult> Put(int id, [FromBody] Cliente cliente)
@@ -65,11 +69,12 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("apagar")]
         public async Task Delete(int id)
         {
-            var cliente = _banco.Cliente.FirstOrDefault(cliente => cliente.Id == id);
+            var cliente = await _banco.Cliente.FirstOrDefaultAsync(cliente => cliente.Id == id);
             if (cliente != null)
             {
                 _banco.Remove(cliente);

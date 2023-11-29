@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="globals.css" />
-    <link rel="stylesheet" href="styleguide.css" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  
-  <body>
-    <div class="cadastro-login">
-      <div class="div">
-        <div class="frame-cadastro-login">
-          <div class="frame-cadastro">
-            <div class="text-wrapper">Cadastro</div>
-            <input class="text-wrapper-2" placeholder="Nome" id="nomeCadastro"></input>
-            <input class="text-wrapper-2" placeholder="Email" id="emailCadastro"></input>
-            <input class="text-wrapper-2" placeholder="Senha" id="enderecoCadastro"></input>
-            <!-- adicionar campo senha -->
-            <button class="button" onclick="registrar()">
+
+<head>
+  <link rel="stylesheet" href="globals.css" />
+  <link rel="stylesheet" href="styleguide.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="cadastro-login">
+    <div class="div">
+      <div class="frame-cadastro-login">
+        <div class="frame-cadastro">
+          <div class="text-wrapper">Cadastro</div>
+          <input class="text-wrapper-2" placeholder="Nome" id="nomeCadastro"></input>
+          <input class="text-wrapper-2" placeholder="Email" id="emailCadastro"></input>
+          <input class="text-wrapper-2" placeholder="Senha" id="enderecoCadastro"></input>
+          <!-- adicionar campo senha -->
+          <button class="button" onclick="registrar()">
             <img class="button" src="img/btn-criar-conta.png" />
           </button>
-          </div>
-          <div class="frame-login">
-            <div class="text-wrapper-3">Login</div>
-            <input class="text-wrapper-2" placeholder="Email" id="emailLogin"></input>
-            <input type="password" class="text-wrapper-2" placeholder="Senha" id="senhaLogin"></input>
-            <button class="button" onclick="logar()">
+        </div>
+        <div class="frame-login">
+          <div class="text-wrapper-3">Login</div>
+          <input class="text-wrapper-2" placeholder="Email" id="emailLogin"></input>
+          <input type="password" class="text-wrapper-2" placeholder="Senha" id="senhaLogin"></input>
+          <button class="button" onclick="logar()">
             <img class="btn-logar" src="img/btn-logar.png" />
           </button>
-          </div>
-        </div>
-        <div class="overlap-group">
-          <div class="menu-superior">
-            <a href="../carrinho/index.html"> <img class="cart-2" src="img/cart.png" /></a> 
-            <a href="../cadastro-login/index.html"><img class="icone-usuario" src="img/icone-usuario.png" /></a>
-          </div>
-          <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
         </div>
       </div>
+      <div class="overlap-group">
+        <div class="menu-superior">
+          <a href="../carrinho/index.html"> <img class="cart-2" src="img/cart.png" /></a>
+          <a href="../cadastro-login/index.html"><img class="icone-usuario" src="img/icone-usuario.png" /></a>
+        </div>
+        <a href="../index/index.html"><img class="logo-home" src="img/logo-home.png" /></a>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
 <script>
 
@@ -54,29 +56,42 @@
     }
   }
 
-  function elementosLogin() {
-    let nome = document.getElementById('emailLogin').value;
-    let email = document.getElementById('senhaLogin').value;
-
-    return {
-      usuario: nome,
-      senha: email
-    }
-  }
-
   function registrar() {
     fetch('http://localhost:4877/Cliente/criarNovo',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(elementosCadastro())
-      })
+      }
+    )
 
     alert('Cadastro realizado com sucesso.')
+    //validar
   }
 
-  function logar() {
-    alert('Login Realizado')
+  async function logar() {
+    debugger
+    var user = document.getElementById('emailLogin').value;
+    var pass = document.getElementById('senhaLogin').value;
+
+    if (user == "" || pass == "") {
+      alert('Preencha os dados de login')
+    }
+    else {
+      debugger
+      try {
+
+        await fetch(`http://localhost:4877/Auth/auth?user=${user}&pass=${pass}`,
+          { method: 'POST', })
+          .then((response) => response.json())
+          .then(x => sessionStorage.setItem('token', x.token))
+          .then(alert('Login realizado com sucesso. Faça seus pedidos'))
+          .then(location.href = "..index/index.html")
+      }
+      catch {
+        alert('Erro no login. Gentileza avaliar suas credenciais e tentar novamente.')
+      }
+    }
   }
 
 

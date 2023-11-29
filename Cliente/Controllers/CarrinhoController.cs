@@ -1,5 +1,6 @@
 ﻿using API.Domain.Models;
 using API.Infraestructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,21 +24,21 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("ver")]
-        public IEnumerable<ItemCarrinho> Get()
+        public async Task< IEnumerable<ItemCarrinho>> Get()
         {
-            var res = _banco.ItemCarrinho
+            var res = await _banco.ItemCarrinho
                         .Include(x => x.Produto)
-                        .ToList();
+                        .ToListAsync();
             return res;
         }
 
         [HttpGet]
         [Route("valorTotal")]
-        public double GetValorTotal()
+        public async Task<double> GetValorTotal()
         {
-            var res = _banco.ItemCarrinho
+            var res = await _banco.ItemCarrinho
                         .Include(x => x.Produto)
-                        .ToList();
+                        .ToListAsync();
 
             var valorTotal = 0.0;
 
@@ -55,7 +56,9 @@ namespace API.Controllers
         {
             try
             {
-                var produto = _banco.Produto.Where(x => x.Id == idProduto).FirstOrDefault();
+                var produto = await _banco.Produto
+                            .Where(x => x.Id == idProduto)
+                            .FirstOrDefaultAsync();
 
                 var carrinho = new ItemCarrinho
                 {
@@ -64,7 +67,7 @@ namespace API.Controllers
                     Quantidade = quantidade,
                 };
 
-                _banco.Add(carrinho);
+                await _banco.AddAsync(carrinho);
                 await _banco.SaveChangesAsync();
 
                 return carrinho;
@@ -93,7 +96,8 @@ namespace API.Controllers
         [Route("apagar")]
         public async Task Delete(int id)
         {
-            var carrinho = _banco.ItemCarrinho.FirstOrDefault(carrinho => carrinho.Id == id);
+            var carrinho = await _banco.ItemCarrinho
+                    .FirstOrDefaultAsync(carrinho => carrinho.Id == id);
             if (carrinho != null)
             {
                 _banco.Remove(carrinho);

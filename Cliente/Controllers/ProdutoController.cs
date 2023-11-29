@@ -1,6 +1,8 @@
 ﻿using API.Domain.Models;
 using API.Infraestructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,9 +24,9 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("buscarTodos")]
-        public IEnumerable<Produto> Get()
+        public async Task<IEnumerable<Produto>> Get()
         {
-            return _banco.Produto.ToList();
+            return await _banco.Produto.ToListAsync();
         }
 
         [HttpGet]
@@ -34,6 +36,7 @@ namespace API.Controllers
             return _banco.Produto.Where(x => x.Id == id).FirstOrDefault();
         }
 
+        [Authorize]
         [HttpPost]
         [Route("criarNovo")]
         public async Task<Produto> Post(string nomeProduto,
@@ -51,7 +54,7 @@ namespace API.Controllers
                     Preco = preco
                 };
 
-                _banco.Add(produto);
+                await _banco.AddAsync(produto);
                 await _banco.SaveChangesAsync();
 
                 return produto;
@@ -62,6 +65,7 @@ namespace API.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut]
         [Route("editar")]
         public async Task<IActionResult> Put(int id, [FromBody] Produto produto)
@@ -76,6 +80,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("apagar")]
         public async Task Delete(int id)

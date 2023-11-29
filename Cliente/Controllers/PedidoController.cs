@@ -1,6 +1,7 @@
 ﻿using API.Domain.Models;
 using API.Infraestructure.Data;
 using Domain.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,6 +24,7 @@ namespace API.Controllers
             _banco = banco;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("buscarTodos")]
         public IEnumerable<PedidoDetalhes> Get()
@@ -31,7 +33,7 @@ namespace API.Controllers
         }
 
 
-
+        [Authorize]
         [HttpPost]
         [Route("criarNovo")]
         public async Task<PedidoDetalhes> Post(int idCliente)

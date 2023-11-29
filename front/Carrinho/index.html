@@ -136,13 +136,13 @@
 
   const url = 'http://localhost:4877/'
 
-  fetch('http://localhost:4877/Carrinho/valorTotal')
+  fetch(url + 'Carrinho/valorTotal')
     .then((response) => response.json())
     .then(json => document.getElementById('valorTotal').textContent = json);
 
 
   function cancelarItem(id) {
-    fetch('http://localhost:4877/Carrinho/apagar?id=' + id,
+    fetch(url + 'Carrinho/apagar?id=' + id,
       { method: 'DELETE', })
     location.reload(true);
   }
@@ -155,43 +155,39 @@
       alert('Carrinho vazio');
       location.href = "../index/index.html"
     }
-
-    if (await !validaToken()) {
-      location.href = "../index/index.html"
-    }
-
-    var token = sessionStorage.getItem('token');//tirar
-    // debugger
-    if (token != null) {
-      var Cliente = JSON.parse(atob(token.split('.')[1]));
-      var idCliente = Cliente.clienteId
-
-      // if (idCliente == null || idCliente == "") {
-      //   location.href = "../index/index.html"
-      // }
-      // else {
-      fetch('http://localhost:4877/Pedido/criarNovo?idCliente=' + idCliente,
-        {
-          method: 'POST',
-          headers: { 'Authorization': 'Bearer ' + token }
-        })
-        .then(response => {
-          if (response.status == 200) {
-            alert('deu bom')
-          }
-        })
-      // }
-    }
     else {
-      alert('Por favor faça o login');
-      location.href = "../cadastro-login/index.html"
+      if (await !validaToken()) {
+        location.href = "../index/index.html"
+      }
+      else {
+        var token = sessionStorage.getItem('token');
 
+        if (token != null) {
+          var Cliente = JSON.parse(atob(token.split('.')[1]));
+          var idCliente = Cliente.clienteId
+          try {
+
+            var requisicao = await fetch(url + 'Pedido/criarNovo?idCliente=' + idCliente,
+              {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token }
+              })
+              .then(response => response.json())
+          } catch {
+            alert('Erro ao comprar. Avaliar e tentar novamente.')
+          }
+
+        }
+        else {
+          alert('Por favor faça o login');
+          location.href = "../cadastro-login/index.html"
+        }
+      }
     }
-    // alert('Pedido finalizado.')
-    //validar
   }
 
   function validaQtdItens() {
+    debugger
     var qtdItens = document.getElementsByClassName('valor-unidade-item').length
     if (qtdItens > 0) {
       return true
@@ -203,6 +199,7 @@
   }
 
   async function validaToken() {
+    debugger
     var token = sessionStorage.getItem('token');
     var requisicao = await fetch(url + 'Auth/validaToken',
       {

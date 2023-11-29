@@ -62,14 +62,15 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(elementosCadastro())
-      })
+      }
+    )
 
     alert('Cadastro realizado com sucesso.')
     //validar
   }
 
   async function logar() {
-debugger
+    debugger
     var user = document.getElementById('emailLogin').value;
     var pass = document.getElementById('senhaLogin').value;
 
@@ -77,19 +78,18 @@ debugger
       alert('Preencha os dados de login')
     }
     else {
-      var requisicao = await fetch(`http://localhost:4877/Auth/auth?user=${user}&pass=${pass}`,
-        { method: 'POST', })
-        .then((response) => response.json())
-        .then(x => sessionStorage.setItem('token', x.token)
-        )
+      debugger
+      try {
 
-      var status = requisicao.response.status
-
-      if (status == 200) {
-        location.href = "../index/index.html"
+        await fetch(`http://localhost:4877/Auth/auth?user=${user}&pass=${pass}`,
+          { method: 'POST', })
+          .then((response) => response.json())
+          .then(x => sessionStorage.setItem('token', x.token))
+          .then(alert('Login realizado com sucesso. Faça seus pedidos'))
+          .then(location.href = "..index/index.html")
       }
-      else {
-        alert('Login falhou, verifique e tente novamente.')
+      catch {
+        alert('Erro no login. Gentileza avaliar suas credenciais e tentar novamente.')
       }
     }
   }

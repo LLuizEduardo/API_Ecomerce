@@ -31,11 +31,12 @@ namespace API.Controllers
                         .FirstOrDefaultAsync();
 
 
-            //if (user == "" && pass == "")
-            //{
-            //}
-            var token = TokenService.GerarToken(cliente);
-            return Ok(token);
+            if (user == cliente.Email && pass == "")
+            {
+                var token = TokenService.GerarToken(cliente);
+                return Ok(token);
+            }
+            else { return BadRequest(); }
         }
 
         [Authorize]

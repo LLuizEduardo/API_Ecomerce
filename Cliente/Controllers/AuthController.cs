@@ -31,7 +31,7 @@ namespace API.Controllers
                         .FirstOrDefaultAsync();
 
 
-            if (user == cliente.Email && pass == "")
+            if (user == cliente.Email && cliente.SenhaValida(pass))
             {
                 var token = TokenService.GerarToken(cliente);
                 return Ok(token);

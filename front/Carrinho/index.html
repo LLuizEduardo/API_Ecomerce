@@ -157,48 +157,45 @@
     }
     else {
       if (await !validaToken()) {
-
         location.href = "../index/index.html"
-
       }
       else {
-
         var token = sessionStorage.getItem('token');
-
         if (token != null) {
-
           try {
-
             var Cliente = JSON.parse(atob(token.split('.')[1]));
             var idCliente = Cliente.clienteId
 
             if (idCliente > 1) {
-
-              var requisicao = await fetch(url + 'Pedido/criarNovo?idCliente=' + idCliente,
+debugger
+              var response = await fetch(url + 'Pedido/criarNovo?idCliente=' + idCliente,
                 {
                   method: 'POST',
                   headers: { 'Authorization': 'Bearer ' + token }
                 })
-                .then(response => response.json())
+              // .then(response => response.json())
+
+              if (response.ok) {
+                alert('Pedido realizado com sucesso.')
+              }
+              else {
+                alert('Cliente não autenticado. Faça novamente o login.')
+                location.href = "../cadastro-login/index.html"
+              }
 
             }
             else {
-
-              alert('Cliente não autenticado. Faça novamente o login.')
-
+              alert('Cliente não encontrado. Faça novamente o login.')
+              location.href = "../cadastro-login/index.html"
             }
           } catch {
-
-            alert('Erro ao comprar. Avaliar e tentar novamente.')
-
+            alert('Erro na requisicao.')
           }
 
         }
         else {
-
           alert('Por favor faça o login');
           location.href = "../cadastro-login/index.html"
-        
         }
       }
     }
@@ -219,18 +216,25 @@
   async function validaToken() {
     debugger
     var token = sessionStorage.getItem('token');
-    var requisicao = await fetch(url + 'Auth/validaToken',
+    const response = await fetch(url + 'Auth/validaToken',
       {
         method: 'GET',
         headers: { 'Authorization': 'Bearer ' + token }
       })
-      .then(response => { return response.json() });
+    // .then(response => { return response.json() });
 
-    var gygy = requisicao.response.json();
+    if (response.ok) {
+      return true
+    }
+    else {
+      return false
+    }
 
-    return gygy;
+    // var gygy = requisicao.response.json();
 
-    return false;
+    // return gygy;
+
+    // return false;
   }
 
 </script>

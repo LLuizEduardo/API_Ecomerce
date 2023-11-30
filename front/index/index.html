@@ -70,7 +70,7 @@
           <div class="overlap-group">
             <div class="frame">
               <img class="img" src="img/cart1-1.svg" />
-              <div class="text-wrapper-2" onclick="adicionarCarrinho2()">Adicionar ao carrinho</div>
+              <div class="text-wrapper-2" onclick="adicionarCarrinho()">Adicionar ao carrinho</div>
             </div>
           </div>
           <div class="combo-galera-wrapper"><img class="combo-galera" src="img/combo-galera-1.png" /></div>
@@ -96,13 +96,21 @@
 
 </html>
 <script>
+  const url = 'http://localhost:4877/'
 
-  function adicionarCarrinho(id) {
-    fetch('http://localhost:4877/Carrinho/adicionar?idProduto=' + id + '&quantidade=1',
+  async function adicionarCarrinho(id) {
+    const response = await fetch(url + `Carrinho/adicionar?idProduto=${id}&quantidade=1`,
       {
         method: 'POST',
       })
-    alert('Item adicionado no carrinho')
+
+    if (response.ok) {
+      alert('Item adicionado no carrinho')
+    }
+    else {
+      alert('Erro ao adicionar no carrinho')
+    }
+
   }
 
 //   function adicionarCarrinho2() {

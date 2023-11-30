@@ -29,6 +29,7 @@ namespace API.Controllers
             var cliente = await _banco.Cliente
                         .FirstOrDefaultAsync(x => x.Email == user);
 
+            if (cliente is null) return NotFound();
 
             if (user == cliente.Email && cliente.SenhaValida(pass))
             {

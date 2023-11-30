@@ -141,100 +141,79 @@
     .then(json => document.getElementById('valorTotal').textContent = json);
 
 
-  function cancelarItem(id) {
-    fetch(url + 'Carrinho/apagar?id=' + id,
+  async function cancelarItem(id) {
+    var response = await fetch(url + 'Carrinho/apagar?id=' + id,
       { method: 'DELETE', })
-    location.reload(true);
+
+    if (response.ok) {
+      location.reload(true);
+    }
+
   }
 
+  function voltarPaginaInicial() {
+    location.href = "../index/index.html"
+  }
+
+  function voltarLogin() {
+    location.href = "../cadastro-login/index.html";
+  }
 
   async function finalizarCompra() {
-    debugger
-    //validacoes
     if (!validaQtdItens()) {
       alert('Carrinho vazio');
-      location.href = "../index/index.html"
+      voltarPaginaInicial();
+      return
     }
-    else {
-      if (await !validaToken()) {
-        location.href = "../index/index.html"
+
+    if (await !validaToken()) {
+      voltarLogin();
+      return
+    }
+
+    try {
+      var token = sessionStorage.getItem('token');
+      var Cliente = JSON.parse(atob(token.split('.')[1]));
+      var idCliente = Cliente.clienteId
+
+      var response = await fetch(`${url}Pedido/criarNovo?idCliente=${idCliente}`,
+        {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+
+      if (response.ok) {
+        alert('Pedido realizado com sucesso.')
+        location.reload(true);
       }
       else {
-        var token = sessionStorage.getItem('token');
-        if (token != null) {
-          try {
-            var Cliente = JSON.parse(atob(token.split('.')[1]));
-            var idCliente = Cliente.clienteId
-
-            if (idCliente > 1) {
-debugger
-              var response = await fetch(url + 'Pedido/criarNovo?idCliente=' + idCliente,
-                {
-                  method: 'POST',
-                  headers: { 'Authorization': 'Bearer ' + token }
-                })
-              // .then(response => response.json())
-
-              if (response.ok) {
-                alert('Pedido realizado com sucesso.')
-              }
-              else {
-                alert('Cliente não autenticado. Faça novamente o login.')
-                location.href = "../cadastro-login/index.html"
-              }
-
-            }
-            else {
-              alert('Cliente não encontrado. Faça novamente o login.')
-              location.href = "../cadastro-login/index.html"
-            }
-          } catch {
-            alert('Erro na requisicao.')
-          }
-
-        }
-        else {
-          alert('Por favor faça o login');
-          location.href = "../cadastro-login/index.html"
-        }
+        alert('Cliente não autenticado. Faça novamente o login.')
+        voltarLogin();
       }
-    }
+    } catch { alert('Erro na requisicao.') }
   }
 
   function validaQtdItens() {
-    debugger
     var qtdItens = document.getElementsByClassName('valor-unidade-item').length
-    if (qtdItens > 0) {
-      return true
-    }
-    else {
-      return false
-    }
-
+    if (qtdItens > 0) { return true }
+    else { return false }
   }
 
   async function validaToken() {
-    debugger
-    var token = sessionStorage.getItem('token');
-    const response = await fetch(url + 'Auth/validaToken',
-      {
-        method: 'GET',
-        headers: { 'Authorization': 'Bearer ' + token }
-      })
-    // .then(response => { return response.json() });
+    try {
+      var token = sessionStorage.getItem('token');
+      const response = await fetch(url + 'Auth/validaToken',
+        {
+          method: 'GET',
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
 
-    if (response.ok) {
-      return true
-    }
-    else {
+      if (response.ok) { return true }
+      else { return false }
+
+    } catch {
       return false
     }
-
-    // var gygy = requisicao.response.json();
-
-    // return gygy;
-
-    // return false;
   }
 
 </script>

@@ -25,28 +25,35 @@ namespace API.Controllers
         [Authorize]
         [HttpGet]
         [Route("buscarTodos")]
-        public async Task<IEnumerable<ClienteDTO>> Get()
+        public async Task<IActionResult> Get()
         {
-            var clientes = await _banco.Cliente.ToListAsync();
-
-            var clientesDTO = new List<ClienteDTO>();
-            foreach (var cliente in clientes)
+            try
             {
-                clientesDTO.Add(new()
-                {
-                    Id = cliente.Id,
-                    NomeCliente = cliente.NomeCliente,
-                    Email = cliente.Email,
-                    Endereco = cliente.Endereco,
-                });
-            }
+                var clientes = await _banco.Cliente.ToListAsync();
 
-            return clientesDTO;
+                var clientesDTO = new List<ClienteDTO>();
+                foreach (var cliente in clientes)
+                {
+                    clientesDTO.Add(new()
+                    {
+                        Id = cliente.Id,
+                        NomeCliente = cliente.NomeCliente,
+                        Email = cliente.Email,
+                        Endereco = cliente.Endereco,
+                    });
+                }
+
+                return Ok(clientesDTO);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
         }
 
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<Cliente> Post([FromBody] Cliente clienteNovo)
+        public async Task<IActionResult> Post([FromBody] Cliente clienteNovo)
         {
             try
             {
@@ -63,11 +70,11 @@ namespace API.Controllers
                 await _banco.AddAsync(cliente);
                 await _banco.SaveChangesAsync();
 
-                return cliente;
+                return Ok();
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message.ToString());
+                return BadRequest(ex.Message.ToString());
             }
         }
 
@@ -77,25 +84,41 @@ namespace API.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] Cliente cliente)
         {
             if (id != cliente.Id)
-            {
                 return BadRequest();
-            }
 
-            _banco.Update(cliente);
-            await _banco.SaveChangesAsync();
-            return NoContent();
+            try
+            {
+                _banco.Update(cliente);
+                await _banco.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
         }
 
         [Authorize]
         [HttpDelete]
         [Route("apagar")]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var cliente = await _banco.Cliente.FirstOrDefaultAsync(cliente => cliente.Id == id);
-            if (cliente != null)
+            try
             {
-                _banco.Remove(cliente);
-                await _banco.SaveChangesAsync();
+                var cliente = await _banco.Cliente
+                    .FirstOrDefaultAsync(cliente => cliente.Id == id);
+
+                if (cliente != null)
+                {
+                    _banco.Remove(cliente);
+                    await _banco.SaveChangesAsync();
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
             }
         }
     }

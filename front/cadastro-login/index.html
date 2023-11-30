@@ -58,8 +58,8 @@
     }
   }
 
-  function registrar() {
-    fetch('http://localhost:4877/Cliente/criarNovo',
+  async function registrar() {
+    const response = await fetch('http://localhost:4877/Cliente/criarNovo',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -67,12 +67,16 @@
       }
     )
 
-    alert('Cadastro realizado com sucesso.')
-    //validar
+    if (response.ok) {
+      alert('Cadastro realizado com sucesso.')
+    }
+    else {
+      alert('Erro no cadastro. Favor tentar novamente.')
+
+    }
   }
 
   async function logar() {
-    debugger
     var user = document.getElementById('emailLogin').value;
     var pass = document.getElementById('senhaLogin').value;
 
@@ -80,15 +84,20 @@
       alert('Preencha os dados de login')
     }
     else {
-      debugger
       try {
+        const response = await fetch(`http://localhost:4877/Auth/auth?user=${user}&pass=${pass}`,
+          { method: 'POST' })
+        // .then(response => response.json())
+        // .then(x => sessionStorage.setItem('token', x.token))
 
-        await fetch(`http://localhost:4877/Auth/auth?user=${user}&pass=${pass}`,
-          { method: 'POST', })
-          .then((response) => response.json())
-          .then(x => sessionStorage.setItem('token', x.token))
-          .then(alert('Login realizado com sucesso. Faça seus pedidos'))
-          .then(location.href = "../index/index.html")
+        if (response.ok) {
+          response.json().then(x => sessionStorage.setItem('token', x.token))
+          alert('Login realizado com sucesso. Faça seus pedidos');
+          location.href = "../index/index.html";
+        }
+        else {
+          alert('Erro no login. Gentileza avaliar suas credenciais e tentar novamente.dentu')
+        }
       }
       catch {
         alert('Erro no login. Gentileza avaliar suas credenciais e tentar novamente.')

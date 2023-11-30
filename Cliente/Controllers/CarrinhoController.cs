@@ -24,41 +24,55 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("ver")]
-        public async Task< IEnumerable<ItemCarrinho>> Get()
+        public async Task<IActionResult> Get()
         {
-            var res = await _banco.ItemCarrinho
+            try
+            {
+                var itens = await _banco.ItemCarrinho
                         .Include(x => x.Produto)
                         .ToListAsync();
-            return res;
+
+                return Ok(itens);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
         }
 
         [HttpGet]
         [Route("valorTotal")]
-        public async Task<double> GetValorTotal()
+        public async Task<IActionResult> GetValorTotal()
         {
-            var res = await _banco.ItemCarrinho
-                        .Include(x => x.Produto)
-                        .ToListAsync();
-
-            var valorTotal = 0.0;
-
-            foreach (var item in res)
+            try
             {
-                valorTotal += item.Produto.Preco * item.Quantidade;
+                var itens = await _banco.ItemCarrinho
+                            .Include(x => x.Produto)
+                            .ToListAsync();
+
+                var valorTotal = 0.0;
+
+                foreach (var item in itens)
+                {
+                    valorTotal += item.Produto.Preco * item.Quantidade;
+                }
+                return Ok(valorTotal);
             }
-            return valorTotal;
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
         }
 
         [HttpPost]
         [Route("adicionar")]
-        public async Task<ItemCarrinho> Post(int idProduto,
-                                             int quantidade)
+        public async Task<IActionResult> Post(int idProduto,
+                                              int quantidade)
         {
             try
             {
                 var produto = await _banco.Produto
-                            .Where(x => x.Id == idProduto)
-                            .FirstOrDefaultAsync();
+                            .FirstOrDefaultAsync(x => x.Id == idProduto);
 
                 var carrinho = new ItemCarrinho
                 {
@@ -70,38 +84,54 @@ namespace API.Controllers
                 await _banco.AddAsync(carrinho);
                 await _banco.SaveChangesAsync();
 
-                return carrinho;
+                return Ok(carrinho);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message.ToString());
+                return BadRequest(ex.Message.ToString());
             }
         }
 
         [HttpPut]
         [Route("editar")]
-        public async Task<IActionResult> Put(int id, [FromBody] ItemCarrinho carrinho)
+        public async Task<IActionResult> Put(int id,
+                                      [FromBody] ItemCarrinho carrinho)
         {
             if (id != carrinho.Id)
-            {
                 return BadRequest();
-            }
 
-            _banco.Update(carrinho);
-            await _banco.SaveChangesAsync();
-            return NoContent();
+            try
+            {
+                _banco.Update(carrinho);
+                await _banco.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
         }
 
         [HttpDelete]
         [Route("apagar")]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var carrinho = await _banco.ItemCarrinho
-                    .FirstOrDefaultAsync(carrinho => carrinho.Id == id);
-            if (carrinho != null)
+            try
             {
-                _banco.Remove(carrinho);
-                await _banco.SaveChangesAsync();
+                var carrinho = await _banco.ItemCarrinho
+                        .FirstOrDefaultAsync(carrinho => carrinho.Id == id);
+
+                if (carrinho != null)
+                {
+                    _banco.Remove(carrinho);
+                    await _banco.SaveChangesAsync();
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
             }
         }
     }

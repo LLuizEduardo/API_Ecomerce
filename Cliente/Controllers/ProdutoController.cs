@@ -24,22 +24,38 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("buscarTodos")]
-        public async Task<IEnumerable<Produto>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _banco.Produto.ToListAsync();
+            try
+            {
+                var produtos = await _banco.Produto.ToListAsync();
+                return Ok(produtos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("buscarPorId")]
-        public Produto Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return _banco.Produto.Where(x => x.Id == id).FirstOrDefault();
+            try
+            {
+                var produto = await _banco.Produto.FirstOrDefaultAsync(x => x.Id == id);
+                return Ok(produto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize]
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<Produto> Post(string nomeProduto,
+        public async Task<IActionResult> Post(string nomeProduto,
                                         string descricaoProduto,
                                         string imagem,
                                         double preco)
@@ -57,11 +73,11 @@ namespace API.Controllers
                 await _banco.AddAsync(produto);
                 await _banco.SaveChangesAsync();
 
-                return produto;
+                return Ok();
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message.ToString());
+                return BadRequest(ex.Message);
             }
         }
 
@@ -71,25 +87,40 @@ namespace API.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] Produto produto)
         {
             if (id != produto.Id)
-            {
                 return BadRequest();
-            }
 
-            _banco.Update(produto);
-            await _banco.SaveChangesAsync();
-            return NoContent();
+            try
+            {
+                _banco.Update(produto);
+                await _banco.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize]
         [HttpDelete]
         [Route("apagar")]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var produto = _banco.Produto.FirstOrDefault(produto => produto.Id == id);
-            if (produto != null)
+            try
             {
+                var produto = await _banco.Produto
+                            .FirstOrDefaultAsync(produto => produto.Id == id);
+
+                if (produto == null)
+                    return BadRequest();
+
                 _banco.Remove(produto);
                 await _banco.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

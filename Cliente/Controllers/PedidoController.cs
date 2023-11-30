@@ -27,16 +27,27 @@ namespace API.Controllers
         [Authorize]
         [HttpGet]
         [Route("buscarTodos")]
-        public IEnumerable<PedidoDetalhes> Get()
+        public async Task<IActionResult> Get()
         {
-            return _banco.PedidoDetalhes.Include(x => x.Produto).ToList();
+            try
+            {
+                var pedidos = await _banco.PedidoDetalhes
+                                .Include(x => x.Produto)
+                                .ToListAsync();
+
+                return Ok(pedidos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
         }
 
 
         [Authorize]
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<PedidoDetalhes> Post(int idCliente)
+        public async Task<IActionResult> Post(int idCliente)
         {
             try
             {
@@ -52,6 +63,7 @@ namespace API.Controllers
 
                 var cliente = await _banco.Cliente.Where(x => x.Id == idCliente).FirstOrDefaultAsync();
 
+                if (cliente == null) return BadRequest();
 
                 var pedido = new Pedido()
                 {
@@ -73,19 +85,17 @@ namespace API.Controllers
                     });
                 }
 
-
-
                 await _banco.PedidoDetalhes.AddRangeAsync(detalhesPedido);
                 await _banco.SaveChangesAsync();
 
                 _banco.ItemCarrinho.RemoveRange(itemCarrinhos);
                 await _banco.SaveChangesAsync();
 
-                return null;
+                return Ok();
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message.ToString());
+                return BadRequest(ex.Message.ToString());
             }
         }
     }

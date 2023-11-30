@@ -27,8 +27,7 @@ namespace API.Controllers
         public async Task<IActionResult> Auth(string user, string pass)
         {
             var cliente = await _banco.Cliente
-                        .Where(x => x.Email == user)
-                        .FirstOrDefaultAsync();
+                        .FirstOrDefaultAsync(x => x.Email == user);
 
 
             if (user == cliente.Email && cliente.SenhaValida(pass))
@@ -42,9 +41,9 @@ namespace API.Controllers
         [Authorize]
         [HttpGet]
         [Route("validaToken")]
-        public bool ValidaToken()
+        public IActionResult ValidaToken()
         {
-            return true;
+            return Ok(true);
         }
     }
 }

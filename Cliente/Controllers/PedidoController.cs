@@ -47,7 +47,7 @@ namespace API.Controllers
         [Authorize]
         [HttpPost]
         [Route("criarNovo")]
-        public async Task<IActionResult> Post(int idCliente)
+        public async Task<IActionResult> Post(int idCliente, double cupom)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace API.Controllers
                     {
                         Produto = item.Produto,
                         Quantidade = item.Quantidade,
-                        Subtotal = item.Produto.Preco * item.Quantidade,
+                        Subtotal = item.Produto.Preco * item.Quantidade * (1 - cupom),
                         Pedido = pedido
                     });
                 }

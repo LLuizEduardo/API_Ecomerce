@@ -78,8 +78,10 @@ async function finalizarCompra() {
 
         var Cliente = JSON.parse(atob(token.split('.')[1]));
         var idCliente = Cliente.clienteId
-
-        var response = await fetch(`${url}Pedido/criarNovo?idCliente=${idCliente}`,
+        var cupom = buscarCupom();
+        
+        var response = await 
+        fetch(`${url}Pedido/criarNovo?idCliente=${idCliente}&cupom=${cupom}`,
             {
                 method: 'POST',
                 headers: { 'Authorization': 'Bearer ' + token }
@@ -120,4 +122,9 @@ async function validaToken() {
     } catch {
         return false
     }
+}
+
+function buscarCupom(){
+
+    return 0.15;
 }

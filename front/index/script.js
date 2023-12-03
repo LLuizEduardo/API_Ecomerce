@@ -1,4 +1,4 @@
-const url = 'http://localhost:4877/'
+const url = 'http://localhost:5000/'
 
 fetch(`${url}Produto/buscarTodos`)
   .then((response) => response.json())

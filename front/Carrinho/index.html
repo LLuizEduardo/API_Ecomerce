@@ -64,11 +64,15 @@
           <div class="frame-baixo">
             <div class="frame-cupom">
               <div class="nome-c-upom">
-                <div class="text-wrapper-4">Coupom</div>
+                <!-- trocado p inpup -->
+                <input class="text-wrapper-4" placeholder="CUPOM" id="cupom"></input>
               </div>
               <button class="button">
                 <div class="boto-aplicar-cupom">
-                  <div class="text-wrapper-5">Aplicar Coupom</div>
+                  <div class="text-wrapper-5" onclick="aplicarCupom()">
+                    Aplicar Coupom
+                  </div>
+                  <!-- ate aqui -->
                 </div>
               </button>
             </div>
@@ -78,6 +82,8 @@
                 <div class="text-wrapper">Valor total:</div>
                 <div class="text-wrapper" id="valorTotal"></div>
               </div>
+              <div class="text-wrapper">Valor com desconto:</div>
+              <div class="text-wrapper" id="valorDesconto"></div>
               <div class="btm-finalizar-compra" onclick="finalizarCompra()">
                 <div class="text-wrapper-5">Finalizar compra</div>
               </div>

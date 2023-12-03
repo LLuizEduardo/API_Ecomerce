@@ -29,7 +29,14 @@ namespace API.Controllers
             try
             {
                 var produtos = await _banco.Produto.ToListAsync();
-                return Ok(produtos);
+
+                var listasProduto = new ListasProduto();
+                listasProduto.Populares = produtos;
+                listasProduto.Promocoes = produtos
+                                            .OrderBy(x=>x.Preco)
+                                            .ToList();
+
+                return Ok(listasProduto);
             }
             catch (Exception ex)
             {
@@ -123,5 +130,11 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+    }
+
+    public class ListasProduto
+    {
+        public List<Produto> Populares { get; set; }
+        public List<Produto> Promocoes { get; set; }
     }
 }

@@ -35,6 +35,11 @@
   position: relative;
   flex: 0 0 auto;
   background-color: var(--destaque);
+  padding-top: 33px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 15px;
+  box-shadow: var(--categogy-20);
 }
 
 .cadastro-login .text-wrapper {
@@ -88,6 +93,11 @@
   position: relative;
   flex: 0 0 auto;
   background-color: var(--destaque);
+  padding-top: 33px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 15px;
+  box-shadow: var(--categogy-20);
 }
 
 .cadastro-login .text-wrapper-3 {
@@ -164,4 +174,9 @@ button {
   .cadastro-login{
     overflow-x: visible;
   } 
+}
+
+body {
+  background-color: #f9c9ae;
+  overflow: hidden;
 }

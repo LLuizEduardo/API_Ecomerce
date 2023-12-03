@@ -1,5 +1,5 @@
 
-const url = 'http://localhost:4877/'
+const url = 'http://localhost:5000/'
 
 fetch(url + 'Carrinho/valorTotal')
     .then((response) => response.json())
@@ -78,12 +78,14 @@ async function finalizarCompra() {
 
         var Cliente = JSON.parse(atob(token.split('.')[1]));
         var idCliente = Cliente.clienteId
+        var cupom = buscarCupom();
 
-        var response = await fetch(`${url}Pedido/criarNovo?idCliente=${idCliente}`,
-            {
-                method: 'POST',
-                headers: { 'Authorization': 'Bearer ' + token }
-            })
+        var response = await
+            fetch(`${url}Pedido/criarNovo?idCliente=${idCliente}&cupom=${cupom}`,
+                {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                })
 
         if (response.ok) {
             alert('Pedido realizado com sucesso.')
@@ -120,4 +122,32 @@ async function validaToken() {
     } catch {
         return false
     }
+}
+
+function buscarCupom() {
+    try {
+        var cupom = document.getElementById('cupom').value;
+
+        if (cupom.toUpperCase() == 'CUPOM10') {
+            return 0.1
+        }
+
+        return 0;
+    } catch {
+        return 0;
+    }
+}
+
+function aplicarCupom() {
+    var valorText = document.getElementById('valorTotal').textContent;
+    var valor = Number(valorText);
+    var desconto = buscarCupom();
+
+    if (desconto <= 0) {
+        alert('Cupom inválido.')
+        return
+    }
+    var valorAjustado = valor * (1 - desconto);
+
+    document.getElementById('valorDesconto').textContent = valorAjustado.toFixed(2);
 }

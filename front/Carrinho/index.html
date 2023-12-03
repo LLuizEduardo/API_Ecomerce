@@ -20,55 +20,15 @@
               <div class="text-wrapper">Total</div>
             </div>
           </div>
-          <!--<div class="item">
-              <div class="valor-unidade-item">$650</div>
-              <div class="valor-total-item">$650</div>
-              <div class="quantidade-item">
-                <div class="frame">
-                  <div class="text-wrapper-2">01</div>
-                  <div class="frame-2">
-                    <img class="img" src="img/drop-up-small-1.svg" />
-                    <img class="img" src="img/drop-down-small-2.svg" />
-                  </div>
-                </div>
-              </div>
-              <div class="overlap">
-                <div class="frame-foto-item"><img class="gcq-x" src="img/g27cq4-500x500-1.png" /></div>
-                <div class="icone-cancelar">
-                  <div class="overlap-group"><img class="vector" src="img/vector.svg" /></div>
-                </div>
-              </div>
-              <div class="text-wrapper-3">LCD Monitor</div>
-            </div>
-            <div class="item">
-              <div class="valor-unidade-item">$550</div>
-              <div class="valor-total-item">$1100</div>
-              <div class="quantidade-item">
-                <div class="frame-3">
-                  <div class="text-wrapper-2">02</div>
-                  <div class="frame-2">
-                    <img class="img" src="img/drop-up-small-2.svg" /> <img class="img" src="img/drop-down-small.svg" />
-                  </div>
-                </div>
-              </div>
-              <div class="overlap">
-                <div class="frame-foto-item"><img class="g-x" src="img/g92-2-500x500-1.png" /></div>
-                <div class="icone-cancelar">
-                  <div class="overlap-group"><img class="vector" src="img/vector.svg" /></div>
-                </div>
-              </div>
-              <div class="text-wrapper-3">H1 Gamepad</div>
-            </div>
-          </div>-->
           <div id="container"></div>
           <div class="frame-baixo">
             <div class="frame-cupom">
               <div class="nome-c-upom">
-                <div class="text-wrapper-4">Coupom</div>
+                <input class="text-wrapper-4" id="cupom" placeholder="CUPOM"></input>
               </div>
               <button class="button">
                 <div class="boto-aplicar-cupom">
-                  <div class="text-wrapper-5">Aplicar Coupom</div>
+                  <div class="text-wrapper-5" onclick="aplicarCupom()">Aplicar Cupom</div>
                 </div>
               </button>
             </div>
@@ -78,6 +38,8 @@
                 <div class="text-wrapper">Valor total:</div>
                 <div class="text-wrapper" id="valorTotal"></div>
               </div>
+              <div class="text-wrapper">Valor Desconto:</div>
+              <div class="text-wrapper" id="valorDesconto"></div>
               <div class="btm-finalizar-compra" onclick="finalizarCompra()">
                 <div class="text-wrapper-5">Finalizar compra</div>
               </div>

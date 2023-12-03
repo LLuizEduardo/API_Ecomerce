@@ -25,7 +25,7 @@ fetch(`${url}Produto/buscarTodos`)
         </div>
       `;
 
-      document.getElementById('container').appendChild(newDiv);
+      document.getElementById('containerPromo').appendChild(newDiv);
     });
   })
   .catch(error => console.error('Error fetching data:', error));
@@ -37,17 +37,3 @@ async function adicionarCarrinho(id) {
   if (response.ok) { alert('Item adicionado no carrinho.') }
   else { alert('Erro ao adicionar no carrinho.') }
 }
-
-//   function adicionarCarrinho2() {
-//     // sessionStorage.setItem('produtox',
-//     //   {
-//     //     'id': 1,
-//     //     'nomeProduto': 'rapaduris'
-//     //   })
-
-//     document.cookie = `produto= ${JSON.stringify({
-//       'id': 6,
-//       'nomeProduto': 'carai'
-//     })}`
-// alert('adicionado')
-//   }

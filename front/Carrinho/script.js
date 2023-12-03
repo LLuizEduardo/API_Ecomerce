@@ -125,7 +125,6 @@ async function validaToken() {
 }
 
 function buscarCupom() {
-
     try {
         var cupom = document.getElementById('cupom').value;
 
@@ -144,5 +143,11 @@ function aplicarCupom() {
     var valor = Number(valorText);
     var desconto = buscarCupom();
 
-    document.getElementById('valorDesconto').textContent = valor * (1 - desconto);
+    if (desconto <= 0) {
+        alert('Cupom inválido.')
+        return
+    }
+    var valorAjustado = valor * (1 - desconto);
+
+    document.getElementById('valorDesconto').textContent = valorAjustado.toFixed(2);
 }
